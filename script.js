@@ -291,7 +291,7 @@ function doFlips(coordinates) {
             for (var b = row; b <= i; b++) {
                 gameArr[b][col] = search;
             }
-         checkDown = false;   
+            checkDown = false;
         }
     }
 
@@ -304,7 +304,7 @@ function doFlips(coordinates) {
             }
             checkUp = false;
         }
-        
+
     }
     for (var i = col + 1; i <= 7; i++) {
         //checks right
