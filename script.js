@@ -286,10 +286,9 @@ function doFlips(coordinates) {
 
     for (var a = row + 1; a <= 7; a++) {
         //checks down row
-
         if (checkDown === true && gameArr[a][col] === search) {
             //finds endpoint and flips inbetween
-            for (var b = row; b <= i; b++) {
+            for (var b = row; b <= a; b++) {
                 gameArr[b][col] = search;
             }
             checkDown = false;
