@@ -5,6 +5,8 @@ function initiateOthello(){
 }
 
 var player=0;
+var blackPlayerStack=32;
+var whitePlayerStack=32;
 
 function chipPlacement(){
     var coordinates = {row: $(this).attr('row'), col: $(this).attr('col')};
@@ -17,9 +19,13 @@ function chipPlacement(){
     if(player===0){
         $(this).append(blackChip);
         player+=1;
+        blackPlayerStack-=1;
+        console.log(blackPlayerStack)
     }else{
         $(this).append(whiteChip);
         player-=1;
+        whitePlayerStack-=1;
+        console.log(whitePlayerStack)
     }
-    console.log(coordinates);
+    return coordinates;
 }
