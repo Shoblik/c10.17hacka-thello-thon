@@ -1,3 +1,4 @@
+///////////////////////////////////////Finding possible placements section/////////////////////////
 var gameArr = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -124,3 +125,4 @@ function findPossiblePlacements() {
     return possiblePlacementArr;
 }
 console.log(findPossiblePlacements());
+///////////////////////////////////////Finding possible placements section/////////////////////////
