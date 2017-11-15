@@ -9,8 +9,8 @@ var gameArr = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
-    [null, null, null, 1, 0, null, null, null],
     [null, null, null, 0, 1, null, null, null],
+    [null, null, null, 1, 0, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null]
@@ -51,7 +51,9 @@ function chipPlacement(){
         console.log(whitePlayer.chipStack)
     }
 
+    turnoffValidPlacementHint();
     return coordinates;
+
 }
 
 
@@ -166,7 +168,7 @@ function findPossiblePlacements() {
             }
         }
     }
-    return possiblePlacementArr;
+    validPlacement(possiblePlacementArr);
 }
 
 function chipCounter(arr){ //this'll after flip function
@@ -197,7 +199,9 @@ function winCheck(){
     }
 }
 function turnoffValidPlacementHint(){
-
+    $('.cell').each(function(){
+        $(this).removeClass('valid')
+    })
 }
 function validPlacement(arr){ //gets array from possible placement function containing coordinates that that'll added a class of valid;
     for(i=0;i<arr.length;i++){
