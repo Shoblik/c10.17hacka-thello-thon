@@ -57,12 +57,13 @@ function chipPlacement() {
             whitePlayer.chipStack -= 1;
             console.log(whitePlayer.chipStack)
         }
-
         turnoffValidPlacementHint();
+        findPossiblePlacements();
         return coordinates;
     }else{
         console.log('not a legal move')
     }
+
 }
 
 function findPossiblePlacements() {
