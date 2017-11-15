@@ -9,16 +9,6 @@ var blackPlayerStack=32;
 var whitePlayerStack=32;
 var blackPlayer = new Player('black');
 var whitePlayer = new Player('white');
-var gameArr = [
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, 1, null, null, null],
-    [null, null, null, 0, 1, null, null, null],
-    [null, null, null, 1, 0, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null]
-];
 
 function Player(color){
     this.chipStack=32;
@@ -77,5 +67,16 @@ function winCheck(){
         }else{
             console.log('white wins')
         }
+    }
+}
+function turnoffValidPlacementHint(){
+
+}
+function validPlacement(arr){ //gets array from possible placement function containing coordinates that that'll added a class of valid;
+    for(i=0;i<arr.length;i++){
+        var row=arr[i][0];
+        var col=arr[i][1];
+        var rows = $('.row');
+        $(rows[row]).find("[col="+col+"]").addClass("valid");
     }
 }
