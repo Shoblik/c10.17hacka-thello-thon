@@ -53,8 +53,10 @@ function chipPlacement() {
         whitePlayer.chipStack -= 1;
         console.log(whitePlayer.chipStack)
     }
-
+    $('.whiteScore').text('white score: '+ $('.white').length);
+    $('.blackScore').text('black score: '+ $('.black').length);
     turnoffValidPlacementHint();
+    findPossiblePlacements();
     return coordinates;
 }
 function findPossiblePlacements() {
@@ -160,10 +162,12 @@ function findPossiblePlacements() {
             }
         }
     }
-
-    var x = possiblePlacementArr;
-    validPlacement(x);
-    return possiblePlacementArr;
+    if (possiblePlacementArr.length === 0) {
+        player = otherPlayer;
+        alert('no valid placements');
+    } else {
+        validPlacement(possiblePlacementArr);
+    }
 }
 
 function chipCounter(arr){ //this'll after flip function
