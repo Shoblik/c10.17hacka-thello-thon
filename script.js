@@ -8,8 +8,8 @@ var gameArr = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
-    [null, null, null, 1, 0, null, null, null],
     [null, null, null, 0, 1, null, null, null],
+    [null, null, null, 1, 0, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -91,7 +91,6 @@ function validPlacement(arr){ //gets array from possible placement function cont
         $(rows[row]).find("[col="+col+"]").addClass("valid");
     }
 }
-
 
 function findPossiblePlacements() {
     if (player === 0) {
@@ -204,6 +203,8 @@ function findPossiblePlacements() {
             }
         }
     }
+    var x = possiblePlacementArr;
+    validPlacement(x);
     return possiblePlacementArr;
 }
-console.log(findPossiblePlacements());
+findPossiblePlacements();
