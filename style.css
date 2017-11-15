@@ -1,0 +1,35 @@
+*{
+    border: 1px solid black;
+}
+body{
+    height:100%;
+    width: 100%;
+    margin: 0;
+}
+
+#container{
+    height: 1000px;
+    width: 1000px;
+    display: flex;
+}
+.cells{
+    height: 50px;
+    width: 50px;
+    flex: 1;
+    display: inline-block;
+    position: relative;
+}
+
+.black{
+    border-radius: 50%;
+    background-color: black;
+    height: 30px;
+    width: 30px;
+}
+
+.white{
+    border-radius: 50%;
+    background-color: red;
+    height: 30px;
+    width: 30px;
+}
