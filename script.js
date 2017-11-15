@@ -1,8 +1,7 @@
-
 $(document).ready(initiateOthello);
 
-function initiateOthello(){
-    $('.cell').on('click',chipPlacement);
+function initiateOthello() {
+    $('.cell').on('click', chipPlacement);
     findPossiblePlacements();
 
 }
@@ -37,7 +36,7 @@ function chipPlacement() {
         col: $(this).attr('col')
     };
     console.log(coordinates);
-    if($(this).hasClass('valid')) {
+    if ($(this).hasClass('valid')) {
         if (player === 0) {
             $(this).append($('<div>', {
                 'class': blackPlayer.chipColor
@@ -60,7 +59,7 @@ function chipPlacement() {
 
         turnoffValidPlacementHint();
         return coordinates;
-    }else{
+    } else {
         console.log('not a legal move')
     }
 }
@@ -171,44 +170,46 @@ function findPossiblePlacements() {
     validPlacement(possiblePlacementArr);
 }
 
-function chipCounter(arr){ //this'll after flip function
+function chipCounter(arr) { //this'll after flip function
     var counterObj = {
-        blackCount:0,
-        whiteCount:0
+        blackCount: 0,
+        whiteCount: 0
     };
-    for(i=0;i<arr.length;i++){
-        for(p=0;p<arr[i].length;p++){
-            if(arr[i][p]===0){
-                counterObj.blackCount+=1;
-            }else if(arr[i][p]===1){
-                counterObj.whiteCount+=1
+    for (i = 0; i < arr.length; i++) {
+        for (p = 0; p < arr[i].length; p++) {
+            if (arr[i][p] === 0) {
+                counterObj.blackCount += 1;
+            } else if (arr[i][p] === 1) {
+                counterObj.whiteCount += 1
             }
         }
     }
     return counterObj;
 }
 
-function winCheck(){
+function winCheck() {
     var currentCounter = chipCounter(gameArr); //returns an object with whiteCount and blackCount
-    if(blackPlayerStack===0 && whitePlayerStack===0 || !blackPlayer.validTurn && !whitePlayer.validTurn){
-        if(currentCounter.blackCount>currentCounter.whiteCount){
+    if (blackPlayerStack === 0 && whitePlayerStack === 0 || !blackPlayer.validTurn && !whitePlayer.validTurn) {
+        if (currentCounter.blackCount > currentCounter.whiteCount) {
             console.log('black wins')
-        }else{
+        } else {
             console.log('white wins')
         }
     }
 }
-function turnoffValidPlacementHint(){
-    $('.cell').each(function(){
+
+function turnoffValidPlacementHint() {
+    $('.cell').each(function () {
         $(this).removeClass('valid')
     })
 }
-function validPlacement(arr){ //gets array from possible placement function containing coordinates that that'll added a class of valid;
-    for(i=0;i<arr.length;i++){
-        var row=arr[i][0];
-        var col=arr[i][1];
+
+function validPlacement(arr) { //gets array from possible placement function containing coordinates that that'll added a class of valid;
+    for (i = 0; i < arr.length; i++) {
+        var row = arr[i][0];
+        var col = arr[i][1];
         var rows = $('.row');
-        $(rows[row]).find("[col="+col+"]").addClass("valid");
+        $(rows[row]).find("[col=" + col + "]").addClass("valid");
     }
 }
 console.log(findPossiblePlacements());
@@ -220,7 +221,6 @@ function doFlips(coordinates) {
     var row = parseInt(coordinates.row);
     var col = parseInt(coordinates.col);
     var search = null;
-
 
     console.log('gameArrIn: ' + gameArr[row][col]);
 
@@ -251,84 +251,104 @@ function doFlips(coordinates) {
     var countIncLeft = row + 1;
     var countDecLeft = row - 1;
 
+    //check one spot around spot clicked
+    if (gameArr[row + 1][col] === search || gameArr[row + 1][col] === null) {
+        checkDown = false;
+    }
+
+    if (gameArr[row - 1][col] === search || gameArr[row - 1][col] === null) {
+        checkUp = false;
+    }
+
+    if (gameArr[row][col + 1] === search || gameArr[row][col + 1] === null) {
+        checkRight = false;
+    }
+
+    if (gameArr[row][col - 1] === search || gameArr[row][col - 1] === null) {
+        checkLeft = false;
+    }
+    if (gameArr[row + 1][col + 1] === search || gameArr[row + 1][col + 1] === null) {
+        checkRightInc = false;
+    }
+    if (gameArr[row + 1][col - 1] === search || gameArr[row + 1][col - 1] === null) {
+        checkRightDec = false;
+    }
+
+    if (gameArr[row + 1][col - 1] === search || gameArr[row + 1][col - 1] === null) {
+        checkLeftInc = false;
+    }
+    if (gameArr[row - 1][col - 1] === search || gameArr[row - 1][col - 1] === null) {
+        checkLeftDec = false;
+    }
+
+
 
     for (var a = row + 1; a <= 7; a++) {
         //checks down row
 
-        if (gameArr[a][col] === search) {
+        if (checkDown === true && gameArr[a][col] === search) {
             //finds endpoint and flips inbetween
-            if (checkDown === true) {
-
-                for (var b = row; b <= i; b++) {
-                    gameArr[b][col] = search;
-                }
-                checkDown = false;
+            for (var b = row; b <= i; b++) {
+                gameArr[b][col] = search;
             }
-
+         checkDown = false;   
         }
     }
 
     for (var c = row - 1; c >= 0; c--) {
         //checks up row
-        if (gameArr[c][col] === search) {
+        if (checkUp === true && gameArr[c][col] === search) {
             //finds endpoint and flips inbetween
-            if (checkUp === true) {
-                for (var d = row; d >= c; d--) {
-                    gameArr[d][col] = search;
-                }
-                checkUp = false;
+            for (var d = row; d >= c; d--) {
+                gameArr[d][col] = search;
             }
-
+            checkUp = false;
         }
+        
     }
     for (var i = col + 1; i <= 7; i++) {
         //checks right
-        if (gameArr[row][i] === search) {
+        if (checkRight === true && gameArr[row][i] === search) {
             //find right endpoint and flip chips in between
-            if (checkRight === true) {
-                for (var k = col; k <= i; k++) {
-                    gameArr[row][k] = search;
-                }
-                checkRight = false;
+
+            for (var k = col; k <= i; k++) {
+                gameArr[row][k] = search;
             }
 
-
+            checkRight = false;
         }
 
 
         var diagRowBegin = row + 1;
         var diagColBegin = col + 1;
 
-        if (countInc <= 7 && gameArr[countInc][i] === search) {
+        if (checkRightInc === true && countInc <= 7 && gameArr[countInc][i] === search) {
             //row -> countInc and col -> i = endpoint
             //console.log('row increment conditional')
-            if (checkRightInc === true) {
-                diagRowBegin = row + 1;
-                diagColBegin = col + 1;
-                for (diagRowBegin; diagRowBegin < countInc; diagRowBegin++, diagColBegin++) {
 
-                    gameArr[diagRowBegin][diagColBegin] = search;
-                }
-                checkRightInc = false;
+            diagRowBegin = row + 1;
+            diagColBegin = col + 1;
+            for (diagRowBegin; diagRowBegin < countInc; diagRowBegin++, diagColBegin++) {
+
+                gameArr[diagRowBegin][diagColBegin] = search;
             }
+            checkRightInc = false;
 
         }
 
         countInc++;
 
         //row decrement
-        if (countDec >= 0 && gameArr[countDec][i] === search) {
+        if (checkRightDec === true && countDec >= 0 && gameArr[countDec][i] === search) {
 
-            if (checkRightDec === true) {
-                diagRowBegin = row - 1;
-                diagColBegin = col + 1;
+            diagRowBegin = row - 1;
+            diagColBegin = col + 1;
 
-                for (diagRowBegin; diagRowBegin > countDec; diagRowBegin--, diagColBegin++) {
+            for (diagRowBegin; diagRowBegin > countDec; diagRowBegin--, diagColBegin++) {
 
-                    gameArr[diagRowBegin][diagColBegin] = search;
-                }
-                checkRightDec = false;
+                gameArr[diagRowBegin][diagColBegin] = search;
             }
+            checkRightDec = false;
 
 
         }
@@ -340,14 +360,12 @@ function doFlips(coordinates) {
     for (var j = col - 1; j >= 0; j--) {
         //checks left
 
-        if (checkLeft === true) {
-            if (gameArr[row][j] === search) {
-                for (var z = col; z >= j; z--) {
-                    gameArr[row][z] = search;
-                }
 
-                checkLeft = false;
+        if (checkLeft === true && gameArr[row][j] === search) {
+            for (var z = col; z >= j; z--) {
+                gameArr[row][z] = search;
             }
+            checkLeft = false;
 
         }
 
@@ -356,36 +374,33 @@ function doFlips(coordinates) {
         var diagColBeginLeft = col - 1;
 
         //row increment
-        if (countIncLeft <= 7 && gameArr[countIncLeft][j] === search) {
-            if (checkLeftInc === true) {
-                diagRowBeginLeft = row + 1;
-                diagColBeginLeft = col - 1;
+        if (checkLeftInc === true && countIncLeft <= 7 && gameArr[countIncLeft][j] === search) {
 
-                for (diagRowBeginLeft; diagRowBeginLeft < countIncLeft; diagRowBeginLeft++, diagColBeginLeft--) {
+            diagRowBeginLeft = row + 1;
+            diagColBeginLeft = col - 1;
 
-                    gameArr[diagRowBeginLeft][diagColBeginLeft] = search;
-                }
-                checkLeftInc = false;
+            for (diagRowBeginLeft; diagRowBeginLeft < countIncLeft; diagRowBeginLeft++, diagColBeginLeft--) {
+
+                gameArr[diagRowBeginLeft][diagColBeginLeft] = search;
             }
 
-
+            checkLeftInc = false;
         }
 
         countIncLeft++;
 
         //row decrement
-        if (countDecLeft >= 0 && gameArr[countDecLeft][j] === search) {
+        if (checkLeftDec === true && countDecLeft >= 0 && gameArr[countDecLeft][j] === search) {
 
-            if (checkLeftDec === true) {
-                diagRowBeginLeft = row - 1;
-                diagColBeginLeft = col - 1;
-                for (diagRowBeginLeft; diagRowBeginLeft > countDecLeft; diagRowBeginLeft--, diagColBeginLeft--) {
 
-                    gameArr[diagRowBeginLeft][diagColBeginLeft] = search;
-                }
+            diagRowBeginLeft = row - 1;
+            diagColBeginLeft = col - 1;
+            for (diagRowBeginLeft; diagRowBeginLeft > countDecLeft; diagRowBeginLeft--, diagColBeginLeft--) {
 
-                checkLeftDec = false;
+                gameArr[diagRowBeginLeft][diagColBeginLeft] = search;
             }
+
+            checkLeftDec = false;
 
         }
         countDecLeft--;
@@ -394,4 +409,3 @@ function doFlips(coordinates) {
     console.log(gameArr);
 
 }
-
