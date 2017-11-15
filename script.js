@@ -36,26 +36,31 @@ function chipPlacement() {
         col: $(this).attr('col')
     };
     console.log(coordinates);
-    if (player === 0) {
-        $(this).append($('<div>', {
-            'class': blackPlayer.chipColor
-        }));
-        gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 0;
-        player += 1;
-        blackPlayer.chipStack -= 1;
-        console.log(blackPlayer.chipStack)
-    } else {
-        $(this).append($('<div>', {
-            'class': whitePlayer.chipColor
-        }));
-        gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 1;
-        player -= 1;
-        whitePlayer.chipStack -= 1;
-        console.log(whitePlayer.chipStack)
-    }
+    if($(this).hasClass('valid')) {
+        if (player === 0) {
+            $(this).append($('<div>', {
+                'class': blackPlayer.chipColor
+            }));
+            gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 0;
+            player += 1;
+            blackPlayer.chipStack -= 1;
+            console.log(blackPlayer.chipStack)
+        } else {
+            $(this).append($('<div>', {
+                'class': whitePlayer.chipColor
+            }));
+            gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 1;
+            player -= 1;
+            whitePlayer.chipStack -= 1;
+            console.log(whitePlayer.chipStack)
+        }
 
-    turnoffValidPlacementHint();
-    return coordinates;
+        turnoffValidPlacementHint();
+        doFlips(coordinates);
+        return coordinates;
+    }else{
+        console.log('not a legal move')
+    }
 }
 
 function findPossiblePlacements() {
@@ -207,8 +212,9 @@ function validPlacement(arr){ //gets array from possible placement function cont
 console.log(findPossiblePlacements());
 
 
-function doFlips(row, col) {
-
+function doFlips(coordinates) {
+var row = coordinates.row;
+var col = coordinates.col;
     var search = null;
 
     console.log('gameArrIn: ' + gameArr[row][col]);
