@@ -48,19 +48,19 @@
     background-color: yellow;
 }
 
-.blackDivProgress{
+.whiteDivProgress{
     height: 50px;
     width: 700px;
-    background-color:black;
+    background-color:white;
     position: relative;
     box-sizing: border-box;
     border: 1px solid black;
 }
 
-.whiteDivProgress{
+.blackDivProgress{
     height: 98%;
     width: 50%;
-    background-color: white;
+    background-color: black;
     float: right;
     padding: 1%;
 }

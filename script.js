@@ -138,6 +138,7 @@ function findPossiblePlacements() {
                     for (var q = 2; q < gameArr.length; q++) {
                         if (gameArr[i + q][j - q] === null) {
                             possiblePlacementArr.push([(i + q), j - q]);
+                            break;
                         } else if (gameArr[i + q][j - q] === player) {
                             break;
                         }
@@ -406,11 +407,21 @@ function doFlips(coordinates) {
         }
         countDecLeft--;
     }
-
     console.log(gameArr);
-
+    updateDOMGameBoard();
 }
 
-function updateBoardChips(){
-
+function updateDOMGameBoard() {
+    var rows = $('.row');
+    for (var i=0;i<gameArr.length;i++) {
+        for (var j = 0; j < gameArr[0].length; j++) {
+            var selectedCell = $(rows[i]).find('[col=' + j + ']');
+            if (gameArr[i][j] === 0) {
+                selectedCell.children().removeClass('white').addClass('black');
+            }
+            else if (gameArr[i][j] === 1) {
+                selectedCell.children().removeClass('black').addClass('white');
+            }
+        }
+    }
 }
