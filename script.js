@@ -410,3 +410,7 @@ function doFlips(coordinates) {
     console.log(gameArr);
 
 }
+
+function updateBoardChips(){
+
+}

@@ -47,3 +47,20 @@
 .valid{
     background-color: yellow;
 }
+
+.blackDivProgress{
+    height: 50px;
+    width: 700px;
+    background-color:black;
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid black;
+}
+
+.whiteDivProgress{
+    height: 98%;
+    width: 50%;
+    background-color: white;
+    float: right;
+    padding: 1%;
+}
