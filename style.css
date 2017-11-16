@@ -139,7 +139,7 @@ header > img {
 }
 
 .valid{
-    opacity: 0.8;
+    opacity: 0.5;
     background-color: yellow;
 }
 /*.valid:hover{  for further implementation when a function is built for it*/
@@ -213,17 +213,19 @@ header > img {
     height: 10%;
     width: 10%;
     position: absolute;
-    -webkit-animation: spin 3s linear infinite;
+    -webkit-animation: spin .5s linear infinite, move 2s linear;
 }
+
 
 .popGun {
-    height: 10%;
-    width: 10%;
+    height: 12%;
+    width: 12%;
     position: absolute;
-}
+    -webkit-animation: gun .5s linear;
 
+}
 .introWrapper{
-    display: none;
+    display: block;
     position: absolute;
     z-index: 2;
     left: 0;
@@ -233,6 +235,7 @@ header > img {
     overflow: hidden;
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);;
+    transition-duration: 2s;
 }
 .modal{
     top: 5%;
@@ -277,3 +280,9 @@ header > img {
    font-family: West1;
     src: url(RioGrande.ttf)
 }
+@keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
+
+@keyframes move { 100% { left: -50%; } }
+
+@keyframes gun { 50% { transform: rotate(-45deg)}
+100% { transform: rotate(0deg)}}

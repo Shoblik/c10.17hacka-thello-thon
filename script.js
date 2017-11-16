@@ -6,6 +6,7 @@ function initiateOthello() {
     playerTurn();
     $('header').on('click',hideStuff);
     $('.switch').on('click',switchModals);
+    $('.close').on('click', closeModal)
 }
 var gameArr = [
     [null, null, null, null, null, null, null, null],
@@ -37,7 +38,7 @@ function chipPlacement(event) {
         col: $(this).attr('col')
     };
     console.log(coordinates);
-    
+
     if ($(this).hasClass('valid')) {
         currentChipsOnBoard += 1;
         if (player === 0) {
@@ -49,7 +50,9 @@ function chipPlacement(event) {
             doFlips(coordinates);
             //
             popImg(event);
-            $('.popGun').fadeOut(3000, 'swing');
+            setTimeout(function () {
+                $('.popGun').fadeOut(1000, 'swing')
+            }, 1000);
             //
             player += 1;
             blackPlayer.chipStack -= 1;
@@ -61,7 +64,9 @@ function chipPlacement(event) {
             doFlips(coordinates);
             //
             popImg(event);
-            $('.popAxe').fadeOut(3000, 'swing');
+            setTimeout(function () {
+                $('.popAxe').fadeOut(250, 'swing')
+            }, 500);
             //
             player -= 1;
             whitePlayer.chipStack -= 1;
@@ -353,11 +358,6 @@ function doFlips(coordinates) {
     var checkRightInc = true;
     var checkRightDec = true;
 
-    //    var countInc = row + 1;
-    //    var countDec = row - 1;
-    //    var countIncLeft = row + 1;
-    //    var countDecLeft = row - 1;
-
     //check one spot around spot clicked
     var rowInc = row + 1;
     var rowDec = row - 1;
@@ -366,16 +366,9 @@ function doFlips(coordinates) {
 
     var rowIncLeft = rowInc;
     var rowDecLeft = rowDec;
-//    var colIncLeft = colInc;
-//    var colDecLeft = colDec;
 
     var diagRowBegin = null;
     var diagColBegin = null;
-
-    console.log('rowInc: ' + rowInc);
-    console.log('rowDec: ' + rowDec);
-    console.log('colInc: ' + colInc);
-    console.log('colDec: ' + colDec);
 
     if (rowInc > 7) {
         checkDown = false;
@@ -535,7 +528,7 @@ function doFlips(coordinates) {
         diagColBegin = col - 1;
 
         //row increment
-        if (rowIncLeft <=7 && gameArr[rowIncLeft][j] === null) {
+        if (rowIncLeft <= 7 && gameArr[rowIncLeft][j] === null) {
             checkLeftInc = false;
         }
         if (checkLeftInc === true && rowIncLeft < 7 && gameArr[rowIncLeft][j] === search) {
@@ -555,7 +548,7 @@ function doFlips(coordinates) {
         rowIncLeft++;
 
         //row decrement
-        if (rowDecLeft >=0 && gameArr[rowDecLeft][j] === null) {
+        if (rowDecLeft >= 0 && gameArr[rowDecLeft][j] === null) {
             checkLeftDec = false;
         }
         if (checkLeftDec === true && rowDecLeft > 0 && gameArr[rowDecLeft][j] === search) {
@@ -579,25 +572,24 @@ function doFlips(coordinates) {
 }
 
 
-    function updateDOMGameBoard(row, col) {
-        if (player === 0) {
-            $($('.row')[row]).find('[col=' + col + ']').children().removeClass('white').addClass('black');
-        }
-        else if (player === 1) {
-            $($('.row')[row]).find('[col=' + col + ']').children().removeClass('black').addClass('white');
-        }
-        chipCounter(gameArr);
+function updateDOMGameBoard(row, col) {
+    if (player === 0) {
+        $($('.row')[row]).find('[col=' + col + ']').children().removeClass('white').addClass('black');
+    } else if (player === 1) {
+        $($('.row')[row]).find('[col=' + col + ']').children().removeClass('black').addClass('white');
     }
+    chipCounter(gameArr);
+}
 
-    function playerTurn() {
-        if (player === 0) {
-            $('.cowboy').addClass('playerTurn');
-            $('.indian').removeClass('playerTurn')
-        } else {
-            $('.indian ').addClass('playerTurn');
-            $('.cowboy').removeClass('playerTurn')
-        }
+function playerTurn() {
+    if (player === 0) {
+        $('.cowboy').addClass('playerTurn');
+        $('.indian').removeClass('playerTurn')
+    } else {
+        $('.indian ').addClass('playerTurn');
+        $('.cowboy').removeClass('playerTurn')
     }
+}
 
 function resetGame() {
     gameArr = [
@@ -638,27 +630,33 @@ function resetGame() {
 }
 
 function popImg(event) {
-
-    if(player === 0) {
-        var assetSrc = 'assets/gun.png';
-        var assetClass = "<img class='popGun'>";
-        var assetClassSelect = '.popGun';
-
-    } else if (player === 1) {
-        assetSrc = 'assets/tomahawk-L.png';
-        assetClass = "<img class='popAxe'>";
-        assetClassSelect = '.popAxe';
-    }
-
     var mouseX = event.clientX - 150;
     var mouseY = event.clientY - 120;
     var leftPx = mouseX + 'px';
     var topPx = mouseY + 'px';
 
-    $('body').append($(assetClass).attr("src", assetSrc));
-    $(assetClassSelect).css('left', leftPx);
-    $(assetClassSelect).css('top', topPx);
+    if (player === 0) {
+        var assetSrc = 'assets/gun.png';
+        var assetClass = "<img class='popGun'>";
+        var assetClassSelect = '.popGun';
 
+        $('body').append($(assetClass).attr("src", assetSrc));
+        $(assetClassSelect).css('left', leftPx);
+        $(assetClassSelect).css('top', topPx);
+
+        setTimeout(function () {
+            $('.popGun').attr('src', 'assets/gun-bang.png')
+        }, 150);
+
+    } else if (player === 1) {
+        assetSrc = 'assets/tomahawk-L.png';
+        assetClass = "<img class='popAxe'>";
+        assetClassSelect = '.popAxe';
+
+        $('body').append($(assetClass).attr("src", assetSrc));
+        $(assetClassSelect).css('left', leftPx);
+        $(assetClassSelect).css('top', topPx);
+    }
 }
 function hideStuff(){
     $('.board-container').toggleClass('shrink');
@@ -676,11 +674,11 @@ function switchModals(){
         }
     }else if($(this).hasClass('setting')) {
         $('.settings').toggleClass('hideLeft');
-            if (parent.hasClass('rules')) {
-                parent.toggleClass('hideTop')
-            }else{
-                parent.toggleClass('hideRight')
-            }
+        if (parent.hasClass('rules')) {
+            parent.toggleClass('hideTop')
+        }else{
+            parent.toggleClass('hideRight')
+        }
     }else{
         $('.rules').toggleClass('hideTop');
         if (parent.hasClass('settings')) {
@@ -691,5 +689,5 @@ function switchModals(){
     }
 }
 function closeModal(){
-    $('.introWrapper').css('display','block')
+    $('.introWrapper').css('opacity','0')
 }
