@@ -422,5 +422,8 @@ function updateDOMGameBoard() {
             }
         }
     }
+    $('.whiteScore').text('white score: '+ $('.white').length);
+    $('.blackScore').text('white score: '+ $('.black').length);
+
 }
 
