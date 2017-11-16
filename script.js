@@ -29,12 +29,13 @@ function Player(color) {
 }
 
 
-function chipPlacement() {
+function chipPlacement(event) {
     var coordinates = {
         row: $(this).attr('row'),
         col: $(this).attr('col')
     };
     console.log(coordinates);
+    
     if ($(this).hasClass('valid')) {
         currentChipsOnBoard += 1;
         if (player === 0) {
@@ -44,6 +45,10 @@ function chipPlacement() {
 
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 0;
             doFlips(coordinates);
+            //
+            popImg(event);
+            $('.popGun').fadeOut(3000, 'swing');
+            //
             player += 1;
             blackPlayer.chipStack -= 1;
         } else {
@@ -52,6 +57,10 @@ function chipPlacement() {
             }));
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 1;
             doFlips(coordinates);
+            //
+            popImg(event);
+            $('.popAxe').fadeOut(3000, 'swing');
+            //
             player -= 1;
             whitePlayer.chipStack -= 1;
         }
@@ -427,6 +436,7 @@ function doFlips(coordinates) {
             //finds endpoint and flips inbetween
             for (var b = row + 1; b < endIndex; b++) {
                 gameArr[b][col] = search;
+                updateDOMGameBoard(b, col)
             }
             checkDown = false;
         }
@@ -441,9 +451,8 @@ function doFlips(coordinates) {
             //finds endpoint and flips inbetween
             endIndex = c;
             for (var d = row - 1; d > endIndex; d--) {
-
                 gameArr[d][col] = search;
-
+                updateDOMGameBoard(d, col);
             }
             checkUp = false;
         }
@@ -458,8 +467,8 @@ function doFlips(coordinates) {
             //find right endpoint and flip chips in between
             endIndex = i;
             for (var k = col + 1; k < endIndex; k++) {
-
-                gameArr[row][k] = search;
+                gameArr[row][k] = search
+                updateDOMGameBoard(row, k)
             }
 
             checkRight = false;
@@ -474,8 +483,8 @@ function doFlips(coordinates) {
             diagRowBegin = row + 1;
             diagColBegin = col + 1;
             for (diagRowBegin; diagRowBegin < rowInc; diagRowBegin++, diagColBegin++) {
-
                 gameArr[diagRowBegin][diagColBegin] = search;
+                updateDOMGameBoard(diagRowBegin, diagColBegin);
             }
             checkRightInc = false;
         }
@@ -494,6 +503,7 @@ function doFlips(coordinates) {
             for (diagRowBegin; diagRowBegin > rowDec; diagRowBegin--, diagColBegin++) {
 
                 gameArr[diagRowBegin][diagColBegin] = search;
+                updateDOMGameBoard(diagRowBegin, diagColBegin);
 
             }
             checkLeftInc = false;
@@ -511,6 +521,7 @@ function doFlips(coordinates) {
             endIndex = j;
             for (var z = col - 1; z > endIndex; z--) {
                 gameArr[row][z] = search;
+                updateDOMGameBoard(row, z);
 
             }
             checkLeft = false;
@@ -533,7 +544,7 @@ function doFlips(coordinates) {
             for (diagRowBegin; diagRowBegin < rowIncLeft; diagRowBegin++, diagColBegin--) {
 
                 gameArr[diagRowBegin][diagColBegin] = search;
-
+                updateDOMGameBoard(diagRowBegin, diagColBegin);
             }
 
             checkLeftInc = false;
@@ -553,7 +564,7 @@ function doFlips(coordinates) {
             for (diagRowBegin; diagRowBegin > rowDecLeft; diagRowBegin--, diagColBegin--) {
 
                 gameArr[diagRowBegin][diagColBegin] = search;
-
+                updateDOMGameBoard(diagRowBegin, diagColBegin);
             }
 
             checkLeftDec = false;
@@ -564,33 +575,27 @@ function doFlips(coordinates) {
     console.log(gameArr);
     updateDOMGameBoard();
 }
-    
 
-function updateDOMGameBoard() {
-    var rows = $('.row');
 
-    for (var i = 0; i < gameArr.length; i++) {
-        for (var j = 0; j < gameArr[0].length; j++) {
-            var selectedCell = $(rows[i]).find('[col=' + j + ']');
-            if (gameArr[i][j] === 0) {
-                selectedCell.children().removeClass('white').addClass('black');
-            } else if (gameArr[i][j] === 1) {
-                selectedCell.children().removeClass('black').addClass('white');
-            }
+    function updateDOMGameBoard(row, col) {
+        if (player === 0) {
+            $($('.row')[row]).find('[col=' + col + ']').children().removeClass('white').addClass('black');
+        }
+        else if (player === 1) {
+            $($('.row')[row]).find('[col=' + col + ']').children().removeClass('black').addClass('white');
+        }
+        chipCounter(gameArr);
+    }
+
+    function playerTurn() {
+        if (player === 0) {
+            $('.cowboy').addClass('playerTurn');
+            $('.indian').removeClass('playerTurn')
+        } else {
+            $('.indian ').addClass('playerTurn');
+            $('.cowboy').removeClass('playerTurn')
         }
     }
-    chipCounter(gameArr);
-}
-
-function playerTurn() {
-    if (player === 0) {
-        $('.cowboy').addClass('playerTurn');
-        $('.indian').removeClass('playerTurn')
-    } else {
-        $('.indian ').addClass('playerTurn');
-        $('.cowboy').removeClass('playerTurn')
-    }
-}
 
 function resetGame() {
     gameArr = [
@@ -628,4 +633,28 @@ function resetGame() {
     chipCounter(gameArr);
     updateChipReserve();
     player = 0;
+}
+
+function popImg(event) {
+
+    if(player === 0) {
+        var assetSrc = 'assets/gun.png';
+        var assetClass = "<img class='popGun'>";
+        var assetClassSelect = '.popGun';
+
+    } else if (player === 1) {
+        assetSrc = 'assets/tomahawk-L.png';
+        assetClass = "<img class='popAxe'>";
+        assetClassSelect = '.popAxe';
+    }
+
+    var mouseX = event.clientX - 150;
+    var mouseY = event.clientY - 120;
+    var leftPx = mouseX + 'px';
+    var topPx = mouseY + 'px';
+
+    $('body').append($(assetClass).attr("src", assetSrc));
+    $(assetClassSelect).css('left', leftPx);
+    $(assetClassSelect).css('top', topPx);
+
 }

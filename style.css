@@ -172,6 +172,8 @@ header > img {
     width: 65vmin;
     display: flex;
     justify-content: space-evenly;
+    font-family: West1;
+    font-size: 3vmin;
 
 }
 
@@ -187,4 +189,23 @@ header > img {
     display: flex;
     justify-content: space-evenly;
     margin: 2%;
+    font-family: West1;
+    font-size: 3vmin;
+}
+
+.popAxe {
+    height: 10%;
+    width: 10%;
+    position: absolute;
+    -webkit-animation: spin 3s linear infinite;
+}
+
+.popGun {
+    height: 10%;
+    width: 10%;
+    position: absolute;
+}
+@font-face {
+   font-family: West1;
+    src: url(RioGrande.ttf)
 }
