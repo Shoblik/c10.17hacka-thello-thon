@@ -31,6 +31,10 @@ header{
     align-items: center;
     width: 100%;
 }
+.main{
+    display: flex;
+    justify-content: space-around;
+}
 .board-container, .row, .cell {
     box-sizing: border-box;
     margin: 0;
@@ -42,7 +46,6 @@ header{
     height:70vh;
     width:20vw;
     display: inline-block;
-    margin: auto 9%;
 }
 .cowboy{
     background-image: url(assets/cowboy.jpg);
@@ -110,11 +113,15 @@ header{
 }
 
 .valid{
+    opacity: 0.5;
     background-color: yellow;
 }
+/*.valid:hover{  for further implementation when a function is built for it*/
+    /*opacity: 0.5;*/
+/*}*/
 
 .whiteDivProgress{
-    margin: 1%;
+    margin: 0.5%;
     height: 3vmin;
     width: 65vmin;
     background-color: white;
@@ -127,10 +134,11 @@ header{
     height: 100%;
     width: 50%;
     background-color: black;
-    transition-duration: 3s;
+    transition-duration: 1.5s;
 }
 .score{
-    margin: 1%;
+    margin: 0.5%;
+    margin-top: 0;
     border: 1px solid black;
     height: 3vmin;
     width: 65vmin;

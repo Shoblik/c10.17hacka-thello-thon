@@ -20,20 +20,11 @@ var player = 0;
 var blackPlayer = new Player('black');
 var whitePlayer = new Player('white');
 var currentChipsOnBoard= 4;
+var reset=false;
 function Player(color) {
-    this.chipStack = 32;
+    this.chipStack = 30;
     this.validTurn = true;
     this.chipColor = color;
-}
-
-function playerTurn(){
-    if(player===0){
-        $('.cowboy').addClass('playerTurn');
-        $('.indian').removeClass('playerTurn')
-    }else{
-        $('.indian ').addClass('playerTurn');
-        $('.cowboy').removeClass('playerTurn')
-    }
 }
 
 
@@ -222,6 +213,24 @@ function findPossiblePlacements() {
             }
         }
     }
+    winCheck();
+    if(possiblePlacementArr.length===0){
+            if(player===0){
+                blackPlayer.validTurn=false;
+                player+=1;
+                findPossiblePlacements();
+            }else {
+                whitePlayer.validTurn = false;
+                player -= 1;
+            }
+                findPossiblePlacements();
+        }else{
+            if(player===0){
+                blackPlayer.validTurn=true;
+            }else{
+                whitePlayer.validTurn=true;
+            }
+        }
     validPlacement(possiblePlacementArr);
 }
 
@@ -251,12 +260,21 @@ function updateChipsBar(chipCount){
 }
 function winCheck() {
     var currentCounter = chipCounter(gameArr); //returns an object with whiteCount and blackCount
-    if (blackPlayerStack === 0 && whitePlayerStack === 0 || !blackPlayer.validTurn && !whitePlayer.validTurn) {
+    if (blackPlayer.chipStack === 0 && whitePlayer.chipStack === 0) {
         if (currentCounter.blackCount > currentCounter.whiteCount) {
             console.log('black wins')
         } else {
             console.log('white wins')
         }
+        resetGame();
+    }
+    if(!blackPlayer.validTurn && !whitePlayer.validTurn){
+        if (currentCounter.blackCount > currentCounter.whiteCount) {
+            console.log('black wins')
+        } else {
+            console.log('white wins')
+        }
+        resetGame();
     }
 }
 
@@ -506,4 +524,43 @@ function updateDOMGameBoard() {
     }
     chipCounter(gameArr);
 }
+function playerTurn(){
+    if(player===0){
+        $('.cowboy').addClass('playerTurn');
+        $('.indian').removeClass('playerTurn')
+    }else{
+        $('.indian ').addClass('playerTurn');
+        $('.cowboy').removeClass('playerTurn')
+    }
+}
 
+function resetGame(){
+    gameArr=[
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, 0, 1, null, null, null],
+        [null, null, null, 1, 0, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null]
+    ];
+    turnoffValidPlacementHint();
+    $('.cell').each(function(){
+        $(this).empty()
+    });
+    var rows = $('.row');
+    $(rows[3]).find("[col="+3+"]").append($('<div>',{'class':'black'}));
+    $(rows[3]).find("[col="+4+"]").append($('<div>',{'class':'white'}));
+    $(rows[4]).find("[col="+3+"]").append($('<div>',{'class':'white'}));
+    $(rows[4]).find("[col="+4+"]").append($('<div>',{'class':'black'}));
+    blackPlayer.chipStack=30;
+    blackPlayer.validTurn=true;
+    whitePlayer.validTurn=true;
+    whitePlayer.chipStack=30;
+    currentChipsOnBoard=4;
+    chipCounter(gameArr);
+    updateChipReserve();
+    player=0;
+    findPossiblePlacements();
+}
