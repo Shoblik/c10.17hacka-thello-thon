@@ -129,7 +129,7 @@ header > img {
 }
 
 .valid{
-    opacity: 0.8;
+    opacity: 0.5;
     background-color: yellow;
 }
 /*.valid:hover{  for further implementation when a function is built for it*/
@@ -183,11 +183,21 @@ header > img {
     height: 10%;
     width: 10%;
     position: absolute;
-    -webkit-animation: spin 3s linear infinite;
+    -webkit-animation: spin .5s linear infinite, move 2s linear;
 }
 
+
 .popGun {
-    height: 10%;
-    width: 10%;
+    height: 12%;
+    width: 12%;
     position: absolute;
+    -webkit-animation: gun .5s linear;
+
 }
+
+@keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
+
+@keyframes move { 100% { left: -50%; } }
+
+@keyframes gun { 50% { transform: rotate(-45deg)}
+100% { transform: rotate(0deg)}}
