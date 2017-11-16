@@ -86,95 +86,136 @@ function findPossiblePlacements() {
 
     var possiblePlacementArr = [];
 
-    for (var i = 0; i < gameArr.length; i++) {
-        for (var j = 0; j < gameArr[i].length; j++) {
+    for (var i = 0; i < gameArr.length-1; i++) {
+        for (var j = 0; j < gameArr[i].length-1; j++) {
             if (gameArr[i][j] === player) {
-                if (gameArr[i - 1][j] === otherPlayer) {
-                    //top
-                    for (var q = 2; q < gameArr.length; q++) {
-                        if (gameArr[i - q][j] === null) {
-                            possiblePlacementArr.push([(i - q), j]);
-                            break;
-                        } else if (gameArr[i - q][j] === player) {
-                            break;
+                if (i > 1) {
+                    if (gameArr[i - 1][j] === otherPlayer) {
+                        //top
+                        for (var q = 2; q < gameArr.length-1; q++) {
+                            if (i-q >= 0) {
+                                if (gameArr[i - q][j] === null) {
+                                    possiblePlacementArr.push([(i - q), j]);
+                                    break;
+                                } else if (gameArr[i - q][j] === player) {
+                                    break;
+                                }
+                            }
+                            else{break;}
                         }
-                    }
 
+                    }
                 }
-                if (gameArr[i - 1][j + 1] === otherPlayer) {
-                    //top right
-                    for (var q = 2; q < gameArr.length; q++) {
-                        if (gameArr[i - q][j + q] === null) {
-                            possiblePlacementArr.push([(i - q), (j + q)]);
-                            break;
-                        } else if (gameArr[i - q][j + q] === player) {
-                            break;
+                if (i > 1 && j < 6) {
+                    if (gameArr[i - 1][j + 1] === otherPlayer) {
+                        //top right
+                        for (var q = 2; q < gameArr.length-1; q++) {
+                            if (i-q >= 0 && j+q <= 7) {
+                                if (gameArr[i - q][j + q] === null) {
+                                    possiblePlacementArr.push([(i - q), (j + q)]);
+                                    break;
+                                }
+                                else if (gameArr[i - q][j + q] === player) {
+                                    break;
+                                }
+                            }
+                            else {break;}
                         }
                     }
                 }
-                if (gameArr[i][j + 1] === otherPlayer) {
-                    //right
-                    for (var q = 2; q < gameArr.length; q++) {
-                        if (gameArr[i][j + q] === null) {
-                            possiblePlacementArr.push([i, (j + q)]);
-                            break;
-                        } else if (gameArr[i][j + q] === player) {
-                            break;
+                if (j < 6) {
+                    if (gameArr[i][j + 1] === otherPlayer) {
+                        //right
+                        for (var q = 2; q < gameArr.length - 1; q++) {
+                            if (j+q <= 7) {
+                                if (gameArr[i][j + q] === null) {
+                                    possiblePlacementArr.push([i, (j + q)]);
+                                    break;
+                                } else if (gameArr[i][j + q] === player) {
+                                    break;
+                                }
+                            }
+                            else {break;}
                         }
                     }
                 }
-                if (gameArr[i + 1][j + 1] === otherPlayer) {
-                    //bottom right
-                    for (var q = 2; q < gameArr.length; q++) {
-                        if (gameArr[i + q][j + q] === null) {
-                            possiblePlacementArr.push([(i + q), (j + q)]);
-                            break;
-                        } else if (gameArr[i + q][j + q] === player) {
-                            break;
+                if (i<6 && j < 6) {
+                    if (gameArr[i + 1][j + 1] === otherPlayer) {
+                        //bottom right
+                        for (var q = 2; q < gameArr.length - 1; q++) {
+                            if (j+q <= 7  && i + q <= 7) {
+                                if (gameArr[i + q][j + q] === null) {
+                                    possiblePlacementArr.push([(i + q), (j + q)]);
+                                    break;
+                                } else if (gameArr[i + q][j + q] === player) {
+                                    break;
+                                }
+                            }
+                            else {break;}
                         }
                     }
                 }
-                if (gameArr[i + 1][j] === otherPlayer) {
-                    //bottom
-                    for (var q = 2; q < gameArr.length; q++) {
-                        if (gameArr[i + q][j] === null) {
-                            possiblePlacementArr.push([(i + q), j]);
-                            break;
-                        } else if (gameArr[i + q][j] === player) {
-                            break;
+                if (i < 6) {
+                    if (gameArr[i + 1][j] === otherPlayer) {
+                        //bottom
+                        for (var q = 2; q < gameArr.length - 1; q++) {
+                            if (i+q <= 7) {
+                                if (gameArr[i + q][j] === null) {
+                                    possiblePlacementArr.push([(i + q), j]);
+                                    break;
+                                } else if (gameArr[i + q][j] === player) {
+                                    break;
+                                }
+                            }
+                            else {break;}
                         }
                     }
                 }
-                if (gameArr[i + 1][j - 1] === otherPlayer) {
-                    //bottom left
-                    for (var q = 2; q < gameArr.length; q++) {
-                        if (gameArr[i + q][j - q] === null) {
-                            possiblePlacementArr.push([(i + q), j - q]);
-                            break;
-                        } else if (gameArr[i + q][j - q] === player) {
-                            break;
+                if (i<6 && j > 1) {
+                    if (gameArr[i + 1][j - 1] === otherPlayer) {
+                        //bottom left
+                        for (var q = 2; q < gameArr.length - 1; q++) {
+                            if (j-q >= 0 && i + q <= 7) {
+                                if (gameArr[i + q][j - q] === null) {
+                                    possiblePlacementArr.push([(i + q), j - q]);
+                                    break;
+                                } else if (gameArr[i + q][j - q] === player) {
+                                    break;
+                                }
+                            }
+                            else {break;}
                         }
                     }
                 }
-                if (gameArr[i][j - 1] === otherPlayer) {
-                    //left
-                    for (var q = 2; q < gameArr.length; q++) {
-                        if (gameArr[i][j - q] === null) {
-                            possiblePlacementArr.push([i, (j - q)]);
-                            break;
-                        } else if (gameArr[i][j - q] === player) {
-                            break;
+                if (j > 1) {
+                    if (gameArr[i][j - 1] === otherPlayer) {
+                        //left
+                        for (var q = 2; q < gameArr.length - 1; q++) {
+                            if (j-q >= 0) {
+                                if (gameArr[i][j - q] === null) {
+                                    possiblePlacementArr.push([i, (j - q)]);
+                                    break;
+                                } else if (gameArr[i][j - q] === player) {
+                                    break;
+                                }
+                            }
+                            else {break;}
                         }
                     }
                 }
-                if (gameArr[i - 1][j - 1] === otherPlayer) {
-                    //top left
-                    for (var q = 2; q < gameArr.length; q++) {
-                        if (gameArr[i - q][j - q] === null) {
-                            possiblePlacementArr.push([(i - q), (j - q)]);
-                            break;
-                        } else if (gameArr[i - q][j - q] === player) {
-                            break;
+                if (i > 1 && j > 1) {
+                    if (gameArr[i - 1][j - 1] === otherPlayer) {
+                        //top left
+                        for (var q = 2; q < gameArr.length-1; q++) {
+                            if (i-q >= 0 && j - q >= 0) {
+                                if (gameArr[i - q][j - q] === null) {
+                                    possiblePlacementArr.push([(i - q), (j - q)]);
+                                    break;
+                                } else if (gameArr[i - q][j - q] === player) {
+                                    break;
+                                }
+                            }
+                            else {break;}
                         }
                     }
                 }
