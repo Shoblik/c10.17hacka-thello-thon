@@ -661,6 +661,10 @@ function popImg(event) {
         }, 150);
 
     } else if (player === 1) {
+        if (singlePlayer) {
+            leftPx = '1000px';
+            topPx = '300px';
+        }
         assetSrc = 'assets/tomahawk-L.png';
         assetClass = "<img class='popAxe'>";
         assetClassSelect = '.popAxe';
