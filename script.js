@@ -263,7 +263,7 @@ function doFlips(coordinates) {
     }
 
     if (rowDec < 0) {
-        rowInc = 0;
+        rowDec = 0;
     }
 
     if (colInc > 7) {
@@ -273,7 +273,6 @@ function doFlips(coordinates) {
     if (colDec < 0) {
         colDec = 0;
     }
-
 
     if (gameArr[rowInc][col] === search || gameArr[rowInc][col] === null) {
         checkDown = false;
