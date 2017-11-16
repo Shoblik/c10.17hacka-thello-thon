@@ -231,8 +231,9 @@ function findPossiblePlacements() {
             }else{
                 whitePlayer.validTurn=true;
             }
+        validPlacement(possiblePlacementArr);
         }
-    validPlacement(possiblePlacementArr);
+
 }
 
 function chipCounter(arr) { //this'll after flip function
