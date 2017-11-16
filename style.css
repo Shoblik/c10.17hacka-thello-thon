@@ -3,13 +3,28 @@
 }
 body{
     margin:0;
+    background-image: url(assets/background.png);
+    background-size: cover;
 }
 #main-container{
 }
 header{
     height: 10vmin;
     width:100%;
+    #display: inline-block;
 }
+
+.headerImage, .titleImage {
+    display: inline-block;
+}
+
+.titleImage img{
+    width: 50%;
+}
+.headerImage img {
+    width: 20%;
+}
+
 .progress-container{
     display: flex;
     flex-direction: column;
