@@ -1,66 +1,71 @@
-*{
-  border:1px solid black;
+* {
+    #border: 1px solid black;
 }
-body{
-    margin:0;
-    background-image: url(assets/background.png);
+
+body {
+    margin: 0;
+    background-image: url(assets/background3.png);
     background-size: cover;
 }
-#main-container{
-}
-header{
+
+#main-container {}
+
+
+
+header {
     height: 10vmin;
-    width:100%;
-    #display: inline-block;
+    width: 100%;
+    text-align: center;
 }
 
-.headerImage, .titleImage {
-    display: inline-block;
+header > img {
+    width: 30%;
 }
 
-.titleImage img{
-    width: 50%;
-}
-.headerImage img {
-    width: 20%;
-}
 
-.progress-container{
+.progress-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
 }
-.board-container, .row, .cell {
+
+.row,
+.cell {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-.side{
+
+.side {
     max-height: 600px;
     max-width: 300px;
-    height:70vh;
-    width:20vw;
+    height: 70vh;
+    width: 20vw;
     display: inline-block;
     margin: auto 9%;
 }
-.cowboy{
+
+.cowboy {
     background-image: url(assets/cowboy.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    opacity: 0.5;
+    opacity: 0.3;
     transition-duration: 2s;
 }
-.indian{
+
+.indian {
     background-image: url(assets/indian.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    opacity: 0.5;
+    opacity: 0.3;
     transition-duration: 2s;
 }
-.playerTurn{
+
+.playerTurn {
     opacity: 1;
 }
+
 .board-container {
     font-size: 0;
     display: inline-block;
@@ -69,10 +74,11 @@ header{
     max-height: 600px;
     width: 95vw;
     height: 70vh;
-    border: 2px red solid;
+    box-sizing: content-box;
+    border: 5px brown solid;
     background-color: green;
     #justify-content: center;
-    
+
 }
 
 .row {
@@ -82,6 +88,7 @@ header{
     width: 100%;
     height: 12.5%;
 }
+
 .cell {
     display: inline-flex;
     border: 1px white solid;
@@ -89,31 +96,41 @@ header{
     height: 100%;
     align-content: center;
     justify-content: center;
-    
+
 }
-.black{
+
+.black {
     margin-top: 5%;
     border-radius: 50%;
     background-color: black;
     height: 90%;
     width: 90%;
+    justify-content: center;
+    background-image: url(assets/cowboy.svg);
+    background-size: 85%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.white{
+.white {
     margin-top: 5%;
     border-radius: 50%;
     background-color: white;
     border: 1px solid black;
     height: 90%;
     width: 90%;
-    
+    background-image: url(assets/indian.svg);
+    background-size: 85%;
+    background-repeat: no-repeat;
+    background-position: center
 }
 
-.valid{
+
+.valid {
     background-color: yellow;
 }
 
-.whiteDivProgress{
+.whiteDivProgress {
     margin: 1%;
     height: 3vmin;
     width: 65vmin;
@@ -123,13 +140,14 @@ header{
     border: 1px solid black;
 }
 
-.blackDivProgress{
+.blackDivProgress {
     height: 100%;
     width: 50%;
     background-color: black;
     transition-duration: 3s;
 }
-.score{
+
+.score {
     margin: 1%;
     border: 1px solid black;
     height: 3vmin;
@@ -138,13 +156,15 @@ header{
     justify-content: space-evenly;
 
 }
-.reserve-container{
+
+.reserve-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
 }
-.chip-reserve{
+
+.chip-reserve {
     border: 1px solid black;
     width: 700px;
     display: flex;

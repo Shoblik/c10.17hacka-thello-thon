@@ -49,6 +49,7 @@ function chipPlacement() {
             $(this).append($('<div>', {
                 'class': blackPlayer.chipColor
             }));
+            
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 0;
             doFlips(coordinates);
             player += 1;
