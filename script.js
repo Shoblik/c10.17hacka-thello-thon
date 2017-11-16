@@ -6,7 +6,8 @@ function initiateOthello() {
     playerTurn();
     $('header').on('click',hideStuff);
     $('.switch').on('click',switchModals);
-    $('.close').on('click', closeModal)
+    $('.close').on('click', closeModal);
+    $('.try-again').on('click',resetGame);
 }
 var gameArr = [
     [null, null, null, null, null, null, null, null],
@@ -239,7 +240,6 @@ function findPossiblePlacements() {
             }
         }
     }
-    winCheck();
     if(possiblePlacementArr.length===0){
             if(player===0){
                 blackPlayer.validTurn=false;
@@ -253,7 +253,7 @@ function findPossiblePlacements() {
                 player=0;
                 findPossiblePlacements();
             }
-
+        winCheck();
         }else{
             if(player===0){
                 blackPlayer.validTurn=true;
@@ -294,19 +294,18 @@ function winCheck() {
     var currentCounter = chipCounter(gameArr); //returns an object with whiteCount and blackCount
     if (blackPlayer.chipStack === 0 && whitePlayer.chipStack === 0) {
         if (currentCounter.blackCount > currentCounter.whiteCount) {
-            console.log('black wins')
+            winWindow('black')
         } else {
-            console.log('white wins')
+            winWindow('white')
         }
-        resetGame();
     }
     if (!blackPlayer.validTurn && !whitePlayer.validTurn) {
         if (currentCounter.blackCount > currentCounter.whiteCount) {
-            console.log('black wins')
+            winWindow('black')
         } else {
-            console.log('white wins')
+            winWindow('white')
         }
-        resetGame();
+
     }
 }
 
@@ -690,4 +689,12 @@ function switchModals(){
 }
 function closeModal(){
     $('.introWrapper').css('top','-200%')
+}
+function winWindow(winningPlayer){
+    if(winningPlayer==='black'){
+        $('.win').addClass('cowboy-win')
+    }else{
+        $('.win').addClass('indian-win')
+    }
+    $('.end-window').css('display','block')
 }

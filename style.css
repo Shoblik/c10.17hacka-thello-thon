@@ -224,7 +224,7 @@ header > img {
     -webkit-animation: gun .5s linear;
 
 }
-.introWrapper{
+.modal-wrap{
     display: block;
     position: absolute;
     z-index: 2;
@@ -235,6 +235,10 @@ header > img {
     overflow: hidden;
     background-color: transparent;
     transition-duration: 2s;
+}
+.end-window{
+    display: none;
+
 }
 .modal{
     top: 5%;
@@ -274,6 +278,30 @@ header > img {
 .hideTop{
     top: -200%;
     opacity: 0;
+}
+.end-window{
+
+}
+.win{
+    background-size: 100%;
+    background-image: url(assets/win-indian.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    font-size: 10vmin;
+    display: flex;
+    justify-content: center;
+}
+.win>span{
+    display: inline-block;
+    position: relative;
+    top: 40%;
+
+}
+.indian-win{
+    background-image: url(assets/win-indian.jpg);
+}
+.cowboy-win{
+    background-image: url(assets/cowboy-win.png);
 }
 @font-face {
    font-family: West1;
