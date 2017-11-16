@@ -1,14 +1,27 @@
 $(document).ready(initiateOthello);
-
+var singlePlayer = true;
+var hints = true;
 function initiateOthello() {
     $('.cell').on('click', chipPlacement);
     findPossiblePlacements();
     playerTurn();
     $('header').on('click',hideStuff);
     $('.switch').on('click',switchModals);
-    $('.close').on('click', closeModal)
+    $('.close').on('click', closeModal);
+    $('.singlePlayer').on('click', function() {
+       singlePlayer = true;
+    });
+    $('.twoPlayer').on('click', function() {
+       singlePlayer = false;
+    });
+    $('.hintsOn').on('click', function() {
+        hints = true;
+    });
+    $('.hintsOff').on('click', function() {
+        hints = false;
+    });
 }
-var singlePlayer = true;
+
 var gameArr = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -319,18 +332,31 @@ function winCheck() {
 }
 
 function turnoffValidPlacementHint() {
+
     $('.cell').each(function () {
         $(this).removeClass('valid')
     })
 }
 
 function validPlacement(arr) { //gets array from possible placement function containing coordinates that that'll added a class of valid;
-    for (var i = 0; i < arr.length; i++) {
-        var row = arr[i][0];
-        var col = arr[i][1];
-        var rows = $('.row');
-        $(rows[row]).find("[col=" + col + "]").addClass("valid");
+    if (hints) {
+        for (var i = 0; i < arr.length; i++) {
+            var row = arr[i][0];
+            var col = arr[i][1];
+            var rows = $('.row');
+            $(rows[row]).find("[col=" + col + "]").addClass("valid");
+        }
+
+    } else {
+        for (var i = 0; i < arr.length; i++) {
+            var row = arr[i][0];
+            var col = arr[i][1];
+            var rows = $('.row');
+            $(rows[row]).find("[col=" + col + "]").addClass("valid").css('background-color', 'inherit');
+        }
+
     }
+
 }
 console.log(findPossiblePlacements());
 

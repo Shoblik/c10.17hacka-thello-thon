@@ -234,7 +234,9 @@ header > img {
     overflow: hidden;
     background-color: transparent;
     transition-duration: 2s;
+    font-size: 2rem;
 }
+
 .modal{
     top: 5%;
     left: 15%;
@@ -249,11 +251,33 @@ header > img {
     color: white;;
     transition-duration: 2s;
 }
+/*//////////////////////Settings Modal////////////////////////////////////////*/
 .settings{
-    background-color: red;
+    background-color: black;
     width: 50vmin;
     height: 50vmin;
+    font-size: 2rem;
 }
+.close {
+    float: right;
+}
+.switch {
+    text-decoration: underline;
+}
+.settings h1 {
+    margin: 7% 0 0 0;
+}
+.singlePlayer, .twoPlayer, .hintsOn, .hintsOff {
+    padding: 5px;
+    font-family: sans-serif;
+}
+.btnWrapper {
+    border-top: solid 2px white;
+    border-bottom: solid 2px white;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+/*///////////////////////////////////////////////////////////////////////*/
 .dev{
     width: 80vmin;
     height: 80vmin;
