@@ -99,15 +99,21 @@ header > img {
     height: 100%;
     align-content: center;
     justify-content: center;
-
+    perspective: 800px;
+    position: relative;
 }
-
-.black {
-    margin-top: 5%;
+.black, .white {
+    position: absolute;
+    height: 50px;
+    width: 53px;
     border-radius: 50%;
+    margin-top: .3%;
+    transform: translate(-50%) !important;
+    backface-visibility: hidden;
+}
+.black {
     background-color: black;
-    height: 90%;
-    width: 90%;
+    border: 1px solid black;
     justify-content: center;
     background-image: url(assets/cowboy2.svg);
     background-size: 85%;
@@ -116,16 +122,23 @@ header > img {
 }
 
 .white {
-    margin-top: 5%;
-    border-radius: 50%;
     background-color: white;
     border: 1px solid black;
-    height: 90%;
-    width: 90%;
     background-image: url(assets/indian.svg);
     background-size: 85%;
     background-repeat: no-repeat;
-    background-position: center
+    background-position: center;
+}
+.coinFlipper {
+    position: absolute;
+    transition: 2s;
+    -webkit-transform-style: preserve-3d;
+
+}
+.flip {
+    transform: rotateY(180deg);
+    /*-webkit-transform-style: preserve-3d;*/
+
 }
 
 .valid{
