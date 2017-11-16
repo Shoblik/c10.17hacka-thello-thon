@@ -574,9 +574,15 @@ function doFlips(coordinates) {
 
 function updateDOMGameBoard(row, col) {
     if (player === 0) {
-        $($('.row')[row]).find('[col=' + col + ']').children().removeClass('white').addClass('black');
+        $($('.row')[row]).find('[col=' + col + ']').children().removeClass('white').addClass('black').css({
+            'transition-delay': '1s',
+            'transition': '.8s',
+        });
     } else if (player === 1) {
-        $($('.row')[row]).find('[col=' + col + ']').children().removeClass('black').addClass('white');
+        $($('.row')[row]).find('[col=' + col + ']').children().removeClass('black').addClass('white').css({
+            'transition-delay': '1s',
+            'transition': '.8s',
+        });;
     }
     chipCounter(gameArr);
 }
@@ -689,5 +695,10 @@ function switchModals(){
     }
 }
 function closeModal(){
-    $('.introWrapper').css('display', 'none');
+    $('.introWrapper').css('top','-200%')
 }
+
+
+
+
+
