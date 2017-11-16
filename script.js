@@ -19,21 +19,13 @@ var gameArr = [
 var player = 0;
 var blackPlayer = new Player('black');
 var whitePlayer = new Player('white');
-var currentChipsOnBoard= 4;
+var currentChipsOnBoard = 4;
+var reset = false;
+
 function Player(color) {
-    this.chipStack = 32;
+    this.chipStack = 30;
     this.validTurn = true;
     this.chipColor = color;
-}
-
-function playerTurn(){
-    if(player===0){
-        $('.cowboy').addClass('playerTurn');
-        $('.indian').removeClass('playerTurn')
-    }else{
-        $('.indian ').addClass('playerTurn');
-        $('.cowboy').removeClass('playerTurn')
-    }
 }
 
 
@@ -44,11 +36,12 @@ function chipPlacement() {
     };
     console.log(coordinates);
     if ($(this).hasClass('valid')) {
-        currentChipsOnBoard+=1;
+        currentChipsOnBoard += 1;
         if (player === 0) {
             $(this).append($('<div>', {
                 'class': blackPlayer.chipColor
             }));
+
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 0;
             doFlips(coordinates);
             player += 1;
@@ -72,7 +65,8 @@ function chipPlacement() {
     }
 
 }
-function updateChipReserve(){
+
+function updateChipReserve() {
     $('.black-reserve >span').text(blackPlayer.chipStack);
     $('.white-reserve >span').text(whitePlayer.chipStack);
 }
@@ -86,22 +80,23 @@ function findPossiblePlacements() {
 
     var possiblePlacementArr = [];
 
-    for (var i = 0; i < gameArr.length-1; i++) {
-        for (var j = 0; j < gameArr[i].length-1; j++) {
+    for (var i = 0; i < gameArr.length - 1; i++) {
+        for (var j = 0; j < gameArr[i].length - 1; j++) {
             if (gameArr[i][j] === player) {
                 if (i > 1) {
                     if (gameArr[i - 1][j] === otherPlayer) {
                         //top
-                        for (var q = 2; q < gameArr.length-1; q++) {
-                            if (i-q >= 0) {
+                        for (var q = 2; q < gameArr.length - 1; q++) {
+                            if (i - q >= 0) {
                                 if (gameArr[i - q][j] === null) {
                                     possiblePlacementArr.push([(i - q), j]);
                                     break;
                                 } else if (gameArr[i - q][j] === player) {
                                     break;
                                 }
+                            } else {
+                                break;
                             }
-                            else{break;}
                         }
 
                     }
@@ -109,17 +104,17 @@ function findPossiblePlacements() {
                 if (i > 1 && j < 6) {
                     if (gameArr[i - 1][j + 1] === otherPlayer) {
                         //top right
-                        for (var q = 2; q < gameArr.length-1; q++) {
-                            if (i-q >= 0 && j+q <= 7) {
+                        for (var q = 2; q < gameArr.length - 1; q++) {
+                            if (i - q >= 0 && j + q <= 7) {
                                 if (gameArr[i - q][j + q] === null) {
                                     possiblePlacementArr.push([(i - q), (j + q)]);
                                     break;
-                                }
-                                else if (gameArr[i - q][j + q] === player) {
+                                } else if (gameArr[i - q][j + q] === player) {
                                     break;
                                 }
+                            } else {
+                                break;
                             }
-                            else {break;}
                         }
                     }
                 }
@@ -127,31 +122,33 @@ function findPossiblePlacements() {
                     if (gameArr[i][j + 1] === otherPlayer) {
                         //right
                         for (var q = 2; q < gameArr.length - 1; q++) {
-                            if (j+q <= 7) {
+                            if (j + q <= 7) {
                                 if (gameArr[i][j + q] === null) {
                                     possiblePlacementArr.push([i, (j + q)]);
                                     break;
                                 } else if (gameArr[i][j + q] === player) {
                                     break;
                                 }
+                            } else {
+                                break;
                             }
-                            else {break;}
                         }
                     }
                 }
-                if (i<6 && j < 6) {
+                if (i < 6 && j < 6) {
                     if (gameArr[i + 1][j + 1] === otherPlayer) {
                         //bottom right
                         for (var q = 2; q < gameArr.length - 1; q++) {
-                            if (j+q <= 7  && i + q <= 7) {
+                            if (j + q <= 7 && i + q <= 7) {
                                 if (gameArr[i + q][j + q] === null) {
                                     possiblePlacementArr.push([(i + q), (j + q)]);
                                     break;
                                 } else if (gameArr[i + q][j + q] === player) {
                                     break;
                                 }
+                            } else {
+                                break;
                             }
-                            else {break;}
                         }
                     }
                 }
@@ -159,31 +156,33 @@ function findPossiblePlacements() {
                     if (gameArr[i + 1][j] === otherPlayer) {
                         //bottom
                         for (var q = 2; q < gameArr.length - 1; q++) {
-                            if (i+q <= 7) {
+                            if (i + q <= 7) {
                                 if (gameArr[i + q][j] === null) {
                                     possiblePlacementArr.push([(i + q), j]);
                                     break;
                                 } else if (gameArr[i + q][j] === player) {
                                     break;
                                 }
+                            } else {
+                                break;
                             }
-                            else {break;}
                         }
                     }
                 }
-                if (i<6 && j > 1) {
+                if (i < 6 && j > 1) {
                     if (gameArr[i + 1][j - 1] === otherPlayer) {
                         //bottom left
                         for (var q = 2; q < gameArr.length - 1; q++) {
-                            if (j-q >= 0 && i + q <= 7) {
+                            if (j - q >= 0 && i + q <= 7) {
                                 if (gameArr[i + q][j - q] === null) {
                                     possiblePlacementArr.push([(i + q), j - q]);
                                     break;
                                 } else if (gameArr[i + q][j - q] === player) {
                                     break;
                                 }
+                            } else {
+                                break;
                             }
-                            else {break;}
                         }
                     }
                 }
@@ -191,35 +190,55 @@ function findPossiblePlacements() {
                     if (gameArr[i][j - 1] === otherPlayer) {
                         //left
                         for (var q = 2; q < gameArr.length - 1; q++) {
-                            if (j-q >= 0) {
+                            if (j - q >= 0) {
                                 if (gameArr[i][j - q] === null) {
                                     possiblePlacementArr.push([i, (j - q)]);
                                     break;
                                 } else if (gameArr[i][j - q] === player) {
                                     break;
                                 }
+                            } else {
+                                break;
                             }
-                            else {break;}
                         }
                     }
                 }
                 if (i > 1 && j > 1) {
                     if (gameArr[i - 1][j - 1] === otherPlayer) {
                         //top left
-                        for (var q = 2; q < gameArr.length-1; q++) {
-                            if (i-q >= 0 && j - q >= 0) {
+                        for (var q = 2; q < gameArr.length - 1; q++) {
+                            if (i - q >= 0 && j - q >= 0) {
                                 if (gameArr[i - q][j - q] === null) {
                                     possiblePlacementArr.push([(i - q), (j - q)]);
                                     break;
                                 } else if (gameArr[i - q][j - q] === player) {
                                     break;
                                 }
+                            } else {
+                                break;
                             }
-                            else {break;}
                         }
                     }
                 }
             }
+        }
+    }
+    winCheck();
+    if (possiblePlacementArr.length === 0) {
+        if (player === 0) {
+            blackPlayer.validTurn = false;
+            player += 1;
+            findPossiblePlacements();
+        } else {
+            whitePlayer.validTurn = false;
+            player -= 1;
+        }
+        findPossiblePlacements();
+    } else {
+        if (player === 0) {
+            blackPlayer.validTurn = true;
+        } else {
+            whitePlayer.validTurn = true;
         }
     }
     validPlacement(possiblePlacementArr);
@@ -242,21 +261,32 @@ function chipCounter(arr) { //this'll after flip function
     updateChipsBar(counterObj);
     return counterObj;
 }
-function updateChipsBar(chipCount){
-    var barProgressPercent = (chipCount.blackCount/currentChipsOnBoard)*100;
-    $('.blackDivProgress').css('width', barProgressPercent+"%");
+
+function updateChipsBar(chipCount) {
+    var barProgressPercent = (chipCount.blackCount / currentChipsOnBoard) * 100;
+    $('.blackDivProgress').css('width', barProgressPercent + "%");
     $('.whiteScore > span').text(chipCount.whiteCount);
     $('.blackScore > span').text(chipCount.blackCount);
 
 }
+
 function winCheck() {
     var currentCounter = chipCounter(gameArr); //returns an object with whiteCount and blackCount
-    if (blackPlayerStack === 0 && whitePlayerStack === 0 || !blackPlayer.validTurn && !whitePlayer.validTurn) {
+    if (blackPlayer.chipStack === 0 && whitePlayer.chipStack === 0) {
         if (currentCounter.blackCount > currentCounter.whiteCount) {
             console.log('black wins')
         } else {
             console.log('white wins')
         }
+        resetGame();
+    }
+    if (!blackPlayer.validTurn && !whitePlayer.validTurn) {
+        if (currentCounter.blackCount > currentCounter.whiteCount) {
+            console.log('black wins')
+        } else {
+            console.log('white wins')
+        }
+        resetGame();
     }
 }
 
@@ -308,10 +338,10 @@ function doFlips(coordinates) {
     var checkRightInc = true;
     var checkRightDec = true;
 
-    var countInc = row + 1;
-    var countDec = row - 1;
-    var countIncLeft = row + 1;
-    var countDecLeft = row - 1;
+    //    var countInc = row + 1;
+    //    var countDec = row - 1;
+    //    var countIncLeft = row + 1;
+    //    var countDecLeft = row - 1;
 
     //check one spot around spot clicked
     var rowInc = row + 1;
@@ -319,60 +349,81 @@ function doFlips(coordinates) {
     var colInc = col + 1;
     var colDec = col - 1;
 
+    var rowIncLeft = rowInc;
+    var rowDecLeft = rowDec;
+//    var colIncLeft = colInc;
+//    var colDecLeft = colDec;
+
+    var diagRowBegin = null;
+    var diagColBegin = null;
+
+    console.log('rowInc: ' + rowInc);
+    console.log('rowDec: ' + rowDec);
+    console.log('colInc: ' + colInc);
+    console.log('colDec: ' + colDec);
+
     if (rowInc > 7) {
-        rowInc = 7;
-    }
-
-    if (rowDec < 0) {
-        rowDec = 0;
-    }
-
-    if (colInc > 7) {
-        colInc = 7;
-    }
-
-    if (colDec < 0) {
-        colDec = 0;
-    }
-
-    if (gameArr[rowInc][col] === search || gameArr[rowInc][col] === null) {
+        checkDown = false;
+    } else if (gameArr[rowInc][col] === search || gameArr[rowInc][col] === null) {
         checkDown = false;
     }
 
-    if (gameArr[rowDec][col] === search || gameArr[rowDec][col] === null) {
+    if (rowDec < 0) {
+        checkUp = false;
+    } else if (gameArr[rowDec][col] === search || gameArr[rowDec][col] === null) {
         checkUp = false;
     }
 
-    if (gameArr[row][colInc] === search || gameArr[row][colInc] === null) {
+    if (colInc > 7) {
+        checkRight = false;
+    } else if (gameArr[row][colInc] === search || gameArr[row][colInc] === null) {
         checkRight = false;
     }
 
-    if (gameArr[row][colDec] === search || gameArr[row][colDec] === null) {
+
+    if (colDec < 0) {
+        checkLeft = false;
+    } else if (gameArr[row][colDec] === search || gameArr[row][colDec] === null) {
         checkLeft = false;
     }
-    if (gameArr[rowInc][colInc] === search || gameArr[rowInc][colInc] === null) {
+
+    if (rowInc > 7 || colInc > 7) {
+        checkRightInc = false;
+    } else if (gameArr[rowInc][colInc] === search || gameArr[rowInc][colInc] === null) {
         checkRightInc = false;
     }
-    if (gameArr[rowInc][colDec] === search || gameArr[rowInc][colDec] === null) {
+
+    if (rowDec < 0 || colInc > 7) {
+        checkRightDec = false;
+    } else if (gameArr[rowDec][colInc] === search || gameArr[rowDec][colInc] === null) {
         checkRightDec = false;
     }
 
-    if (gameArr[rowInc][colDec] === search || gameArr[rowInc][colDec] === null) {
+
+    if (rowInc > 7 || colDec < 0) {
+        checkLeftInc = false;
+    } else if (gameArr[rowInc][colDec] === search || gameArr[rowInc][colDec] === null) {
         checkLeftInc = false;
     }
-    if (gameArr[rowDec][colDec] === search || gameArr[rowDec][colDec] === null) {
+
+
+    if (rowDec < 0 || colDec < 0) {
+        checkLeftDec = false;
+    } else if (gameArr[rowDec][colDec] === search || gameArr[rowDec][colDec] === null) {
         checkLeftDec = false;
     }
 
-
-
     for (var a = row + 1; a <= 7; a++) {
         //checks down row
+        if (gameArr[a][col] === null) {
+            checkDown = false;
+        }
         if (checkDown === true && gameArr[a][col] === search) {
+            var endIndex = a;
             //finds endpoint and flips inbetween
-            for (var b = row; b <= a; b++) {
+            for (var b = row + 1; b < endIndex; b++) {
                 gameArr[b][col] = search;
-                updateDOMGameBoard(b,col);
+                updateDOMGameBoard(b, col)
             }
             checkDown = false;
         }
@@ -380,129 +431,195 @@ function doFlips(coordinates) {
 
     for (var c = row - 1; c >= 0; c--) {
         //checks up row
+        if (gameArr[c][col] === null) {
+            checkUp = false;
+        }
         if (checkUp === true && gameArr[c][col] === search) {
             //finds endpoint and flips inbetween
-            for (var d = row; d >= c; d--) {
+            endIndex = c;
+            for (var d = row - 1; d > endIndex; d--) {
                 gameArr[d][col] = search;
-                updateDOMGameBoard(d,col);
+                updateDOMGameBoard(d, col);
             }
             checkUp = false;
         }
-
     }
     for (var i = col + 1; i <= 7; i++) {
         //checks right
+
+        if (gameArr[row][i] === null) {
+            checkRight = false;
+        }
         if (checkRight === true && gameArr[row][i] === search) {
             //find right endpoint and flip chips in between
-
-            for (var k = col; k <= i; k++) {
-                gameArr[row][k] = search;
-                updateDOMGameBoard(row,k);
+            endIndex = i;
+            for (var k = col + 1; k < endIndex; k++) {
+                gameArr[row][k] = search
+                updateDOMGameBoard(row, k)
             }
 
             checkRight = false;
         }
 
-
-        var diagRowBegin = row + 1;
-        var diagColBegin = col + 1;
-
-        if (checkRightInc === true && countInc <= 7 && gameArr[countInc][i] === search) {
-            //row -> countInc and col -> i = endpoint
-            //console.log('row increment conditional')
+        //row increment
+        if (rowInc <= 7 && gameArr[rowInc][i] === null) {
+            checkRightInc = false;
+        }
+        if (checkRightInc === true && rowInc < 7 && gameArr[rowInc][i] === search) {
 
             diagRowBegin = row + 1;
             diagColBegin = col + 1;
-            for (diagRowBegin; diagRowBegin < countInc; diagRowBegin++, diagColBegin++) {
+            for (diagRowBegin; diagRowBegin < rowInc; diagRowBegin++, diagColBegin++) {
                 gameArr[diagRowBegin][diagColBegin] = search;
-                updateDOMGameBoard(diagRowBegin,diagColBegin);
+                updateDOMGameBoard(diagRowBegin, diagColBegin);
             }
             checkRightInc = false;
-
         }
 
-        countInc++;
+        rowInc++;
 
         //row decrement
-        if (checkRightDec === true && countDec >= 0 && gameArr[countDec][i] === search) {
+        if (rowDec >= 0 && gameArr[rowDec][i] === null) {
+            checkRightDec = false;
+        }
+        if (checkRightDec === true && rowDec >= 0 && gameArr[rowDec][i] === search) {
 
             diagRowBegin = row - 1;
             diagColBegin = col + 1;
 
-            for (diagRowBegin; diagRowBegin > countDec; diagRowBegin--, diagColBegin++) {
+            for (diagRowBegin; diagRowBegin > rowDec; diagRowBegin--, diagColBegin++) {
+
                 gameArr[diagRowBegin][diagColBegin] = search;
-                updateDOMGameBoard(diagRowBegin,diagColBegin);
+                updateDOMGameBoard(diagRowBegin, diagColBegin);
+
             }
-            checkRightDec = false;
-
-
+            checkLeftInc = false;
         }
-        countDec--;
+        rowDec--;
     }
 
-
-    console.log('countInc: ' + countInc);
     for (var j = col - 1; j >= 0; j--) {
         //checks left
-
+        if (gameArr[row][j] === null) {
+            checkLeft = false;
+        }
 
         if (checkLeft === true && gameArr[row][j] === search) {
-            for (var z = col; z >= j; z--) {
+            endIndex = j;
+            for (var z = col - 1; z > endIndex; z--) {
                 gameArr[row][z] = search;
-                updateDOMGameBoard(row,z);
+                updateDOMGameBoard(row, z);
+
             }
             checkLeft = false;
 
         }
 
 
-        var diagRowBeginLeft = row + 1;
-        var diagColBeginLeft = col - 1;
+        diagRowBegin = row + 1;
+        diagColBegin = col - 1;
 
         //row increment
-        if (checkLeftInc === true && countIncLeft <= 7 && gameArr[countIncLeft][j] === search) {
+        if (rowIncLeft <=7 && gameArr[rowIncLeft][j] === null) {
+            checkLeftInc = false;
+        }
+        if (checkLeftInc === true && rowIncLeft < 7 && gameArr[rowIncLeft][j] === search) {
 
-            diagRowBeginLeft = row + 1;
-            diagColBeginLeft = col - 1;
+            diagRowBegin = row + 1;
+            diagColBegin = col - 1;
 
-            for (diagRowBeginLeft; diagRowBeginLeft < countIncLeft; diagRowBeginLeft++, diagColBeginLeft--) {
-                gameArr[diagRowBeginLeft][diagColBeginLeft] = search;
-                updateDOMGameBoard(diagRowBeginLeft,diagColBeginLeft);
+            for (diagRowBegin; diagRowBegin < rowIncLeft; diagRowBegin++, diagColBegin--) {
+
+                gameArr[diagRowBegin][diagColBegin] = search;
+                updateDOMGameBoard(diagRowBegin, diagColBegin);
             }
 
             checkLeftInc = false;
         }
 
-        countIncLeft++;
+        rowIncLeft++;
 
         //row decrement
-        if (checkLeftDec === true && countDecLeft >= 0 && gameArr[countDecLeft][j] === search) {
+        if (rowDecLeft >=0 && gameArr[rowDecLeft][j] === null) {
+            checkLeftDec = false;
+        }
+        if (checkLeftDec === true && rowDecLeft > 0 && gameArr[rowDecLeft][j] === search) {
 
 
-            diagRowBeginLeft = row - 1;
-            diagColBeginLeft = col - 1;
-            for (diagRowBeginLeft; diagRowBeginLeft > countDecLeft; diagRowBeginLeft--, diagColBeginLeft--) {
+            diagRowBegin = row - 1;
+            diagColBegin = col - 1;
+            for (diagRowBegin; diagRowBegin > rowDecLeft; diagRowBegin--, diagColBegin--) {
 
-                gameArr[diagRowBeginLeft][diagColBeginLeft] = search;
-                updateDOMGameBoard(diagRowBeginLeft,diagColBeginLeft);
+                gameArr[diagRowBegin][diagColBegin] = search;
+                updateDOMGameBoard(diagRowBegin, diagColBegin);
             }
 
             checkLeftDec = false;
 
         }
-        countDecLeft--;
+        rowDecLeft--;
     }
     console.log(gameArr);
-    // updateDOMGameBoard();
+    updateDOMGameBoard();
 }
 
-function updateDOMGameBoard(row, col) {
-    if (player === 0) {
-        $($('.row')[row]).find('[col='+col+']').children().removeClass('white').addClass('black');
+
+    function updateDOMGameBoard(row, col) {
+        if (player === 0) {
+            $($('.row')[row]).find('[col=' + col + ']').children().removeClass('white').addClass('black');
+        }
+        else if (player === 1) {
+            $($('.row')[row]).find('[col=' + col + ']').children().removeClass('black').addClass('white');
+        }
+        chipCounter(gameArr);
     }
-    else if (player === 1) {
-        $($('.row')[row]).find('[col='+col+']').children().removeClass('black').addClass('white');
+
+    function playerTurn() {
+        if (player === 0) {
+            $('.cowboy').addClass('playerTurn');
+            $('.indian').removeClass('playerTurn')
+        } else {
+            $('.indian ').addClass('playerTurn');
+            $('.cowboy').removeClass('playerTurn')
+        }
     }
-    chipCounter(gameArr);
-}
+
+    function resetGame() {
+        gameArr = [
+            [null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null],
+            [null, null, null, 0, 1, null, null, null],
+            [null, null, null, 1, 0, null, null, null],
+            [null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null]
+        ];
+        turnoffValidPlacementHint();
+        $('.cell').each(function () {
+            $(this).empty()
+        });
+        var rows = $('.row');
+        $(rows[3]).find("[col=" + 3 + "]").append($('<div>', {
+            'class': 'black'
+        }));
+        $(rows[3]).find("[col=" + 4 + "]").append($('<div>', {
+            'class': 'white'
+        }));
+        $(rows[4]).find("[col=" + 3 + "]").append($('<div>', {
+            'class': 'white'
+        }));
+        $(rows[4]).find("[col=" + 4 + "]").append($('<div>', {
+            'class': 'black'
+        }));
+        blackPlayer.chipStack = 30;
+        blackPlayer.validTurn = true;
+        whitePlayer.validTurn = true;
+        whitePlayer.chipStack = 30;
+        currentChipsOnBoard = 4;
+        chipCounter(gameArr);
+        updateChipReserve();
+        player = 0;
+        findPossiblePlacements();
+    }
 
