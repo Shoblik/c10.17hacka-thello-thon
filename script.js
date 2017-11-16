@@ -3,6 +3,7 @@ $(document).ready(initiateOthello);
 function initiateOthello() {
     $('.cell').on('click', chipPlacement);
     findPossiblePlacements();
+    playerTurn();
 }
 var gameArr = [
     [null, null, null, null, null, null, null, null],
@@ -25,6 +26,15 @@ function Player(color) {
     this.chipColor = color;
 }
 
+function playerTurn(){
+    if(player===0){
+        $('.cowboy').addClass('playerTurn');
+        $('.indian').removeClass('playerTurn')
+    }else{
+        $('.indian ').addClass('playerTurn');
+        $('.cowboy').removeClass('playerTurn')
+    }
+}
 
 
 function chipPlacement() {
@@ -52,6 +62,7 @@ function chipPlacement() {
             player -= 1;
             whitePlayer.chipStack -= 1;
         }
+        playerTurn();
         updateChipReserve();
         turnoffValidPlacementHint();
         findPossiblePlacements();

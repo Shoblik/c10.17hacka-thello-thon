@@ -33,11 +33,18 @@ header{
     background-image: url(assets/cowboy.jpg);
     background-size: cover;
     background-repeat: no-repeat;
+    opacity: 0.5;
+    transition-duration: 2s;
 }
 .indian{
     background-image: url(assets/indian.jpg);
     background-size: cover;
     background-repeat: no-repeat;
+    opacity: 0.5;
+    transition-duration: 2s;
+}
+.playerTurn{
+    opacity: 1;
 }
 .board-container {
     font-size: 0;
@@ -86,6 +93,7 @@ header{
     width: 90%;
     
 }
+
 .valid{
     background-color: yellow;
 }
