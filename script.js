@@ -4,6 +4,7 @@ function initiateOthello() {
     $('.cell').on('click', chipPlacement);
     findPossiblePlacements();
     playerTurn();
+    $('header').on('click',hideStuff)
 }
 var gameArr = [
     [null, null, null, null, null, null, null, null],
@@ -656,5 +657,10 @@ function popImg(event) {
     $('body').append($(assetClass).attr("src", assetSrc));
     $(assetClassSelect).css('left', leftPx);
     $(assetClassSelect).css('top', topPx);
+
+}
+function hideStuff(){
+    $('.board-container').toggleClass('shrink');
+    $('.side').toggleClass('collapse')
 
 }
