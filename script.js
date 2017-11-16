@@ -4,6 +4,9 @@ function initiateOthello() {
     $('.cell').on('click', chipPlacement);
     findPossiblePlacements();
     playerTurn();
+    $('header').on('click',hideStuff);
+    $('.switch').on('click',switchModals);
+    $('.close').on('click', closeModal)
 }
 var gameArr = [
     [null, null, null, null, null, null, null, null],
@@ -29,33 +32,42 @@ function Player(color) {
 }
 
 
-function chipPlacement() {
+function chipPlacement(event) {
     var coordinates = {
         row: $(this).attr('row'),
         col: $(this).attr('col')
     };
     console.log(coordinates);
+
     if ($(this).hasClass('valid')) {
         currentChipsOnBoard += 1;
         if (player === 0) {
-            $(this).append($('<div>', {
-                'class': whitePlayer.chipColor
-            }));
             $(this).append($('<div>', {
                 'class': blackPlayer.chipColor
             }));
 
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 0;
             doFlips(coordinates);
+            //
+            popImg(event);
+            setTimeout(function () {
+                $('.popGun').fadeOut(1000, 'swing')
+            }, 1000);
+            //
             player += 1;
             blackPlayer.chipStack -= 1;
         } else {
-            $(this).append($('<div>').addClass(blackPlayer.chipColor));
             $(this).append($('<div>', {
                 'class': whitePlayer.chipColor
             }));
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 1;
             doFlips(coordinates);
+            //
+            popImg(event);
+            setTimeout(function () {
+                $('.popAxe').fadeOut(250, 'swing')
+            }, 500);
+            //
             player -= 1;
             whitePlayer.chipStack -= 1;
         }
@@ -227,8 +239,29 @@ function findPossiblePlacements() {
             }
         }
     }
-    validPlacement(possiblePlacementArr);
+    winCheck();
+    if(possiblePlacementArr.length===0){
+        if(player===0){
+            blackPlayer.validTurn=false;
+            player+=1;
+        }else {
+            whitePlayer.validTurn = false;
+            player -= 1;
 
+        }
+        if(whitePlayer.validTurn || blackPlayer.validTurn){
+            player=0;
+            findPossiblePlacements();
+        }
+
+    }else{
+        if(player===0){
+            blackPlayer.validTurn=true;
+        }else{
+            whitePlayer.validTurn=true;
+        }
+        validPlacement(possiblePlacementArr);
+    }
 }
 
 function chipCounter(arr) { //this'll after flip function
@@ -284,7 +317,7 @@ function turnoffValidPlacementHint() {
 }
 
 function validPlacement(arr) { //gets array from possible placement function containing coordinates that that'll added a class of valid;
-    for (i = 0; i < arr.length; i++) {
+    for (var i = 0; i < arr.length; i++) {
         var row = arr[i][0];
         var col = arr[i][1];
         var rows = $('.row');
@@ -325,11 +358,6 @@ function doFlips(coordinates) {
     var checkRightInc = true;
     var checkRightDec = true;
 
-    //    var countInc = row + 1;
-    //    var countDec = row - 1;
-    //    var countIncLeft = row + 1;
-    //    var countDecLeft = row - 1;
-
     //check one spot around spot clicked
     var rowInc = row + 1;
     var rowDec = row - 1;
@@ -338,16 +366,9 @@ function doFlips(coordinates) {
 
     var rowIncLeft = rowInc;
     var rowDecLeft = rowDec;
-//    var colIncLeft = colInc;
-//    var colDecLeft = colDec;
 
     var diagRowBegin = null;
     var diagColBegin = null;
-
-    console.log('rowInc: ' + rowInc);
-    console.log('rowDec: ' + rowDec);
-    console.log('colInc: ' + colInc);
-    console.log('colDec: ' + colDec);
 
     if (rowInc > 7) {
         checkDown = false;
@@ -410,6 +431,7 @@ function doFlips(coordinates) {
             //finds endpoint and flips inbetween
             for (var b = row + 1; b < endIndex; b++) {
                 gameArr[b][col] = search;
+                updateDOMGameBoard(b, col)
             }
             checkDown = false;
         }
@@ -424,9 +446,8 @@ function doFlips(coordinates) {
             //finds endpoint and flips inbetween
             endIndex = c;
             for (var d = row - 1; d > endIndex; d--) {
-
                 gameArr[d][col] = search;
-
+                updateDOMGameBoard(d, col);
             }
             checkUp = false;
         }
@@ -441,8 +462,8 @@ function doFlips(coordinates) {
             //find right endpoint and flip chips in between
             endIndex = i;
             for (var k = col + 1; k < endIndex; k++) {
-
-                gameArr[row][k] = search;
+                gameArr[row][k] = search
+                updateDOMGameBoard(row, k)
             }
 
             checkRight = false;
@@ -457,8 +478,8 @@ function doFlips(coordinates) {
             diagRowBegin = row + 1;
             diagColBegin = col + 1;
             for (diagRowBegin; diagRowBegin < rowInc; diagRowBegin++, diagColBegin++) {
-
                 gameArr[diagRowBegin][diagColBegin] = search;
+                updateDOMGameBoard(diagRowBegin, diagColBegin);
             }
             checkRightInc = false;
         }
@@ -477,6 +498,7 @@ function doFlips(coordinates) {
             for (diagRowBegin; diagRowBegin > rowDec; diagRowBegin--, diagColBegin++) {
 
                 gameArr[diagRowBegin][diagColBegin] = search;
+                updateDOMGameBoard(diagRowBegin, diagColBegin);
 
             }
             checkLeftInc = false;
@@ -494,6 +516,7 @@ function doFlips(coordinates) {
             endIndex = j;
             for (var z = col - 1; z > endIndex; z--) {
                 gameArr[row][z] = search;
+                updateDOMGameBoard(row, z);
 
             }
             checkLeft = false;
@@ -505,7 +528,7 @@ function doFlips(coordinates) {
         diagColBegin = col - 1;
 
         //row increment
-        if (rowIncLeft <=7 && gameArr[rowIncLeft][j] === null) {
+        if (rowIncLeft <= 7 && gameArr[rowIncLeft][j] === null) {
             checkLeftInc = false;
         }
         if (checkLeftInc === true && rowIncLeft < 7 && gameArr[rowIncLeft][j] === search) {
@@ -516,7 +539,7 @@ function doFlips(coordinates) {
             for (diagRowBegin; diagRowBegin < rowIncLeft; diagRowBegin++, diagColBegin--) {
 
                 gameArr[diagRowBegin][diagColBegin] = search;
-
+                updateDOMGameBoard(diagRowBegin, diagColBegin);
             }
 
             checkLeftInc = false;
@@ -525,7 +548,7 @@ function doFlips(coordinates) {
         rowIncLeft++;
 
         //row decrement
-        if (rowDecLeft >=0 && gameArr[rowDecLeft][j] === null) {
+        if (rowDecLeft >= 0 && gameArr[rowDecLeft][j] === null) {
             checkLeftDec = false;
         }
         if (checkLeftDec === true && rowDecLeft > 0 && gameArr[rowDecLeft][j] === search) {
@@ -536,7 +559,7 @@ function doFlips(coordinates) {
             for (diagRowBegin; diagRowBegin > rowDecLeft; diagRowBegin--, diagColBegin--) {
 
                 gameArr[diagRowBegin][diagColBegin] = search;
-
+                updateDOMGameBoard(diagRowBegin, diagColBegin);
             }
 
             checkLeftDec = false;
@@ -547,29 +570,14 @@ function doFlips(coordinates) {
     console.log(gameArr);
     updateDOMGameBoard();
 }
-    
-
-function updateDOMGameBoard() {
-    var rows = $('.row');
-    var delay = 0;
 
 
-    $($('.row')[3]).find('[col=3]').children().hasClass('white');
-
-    for (var i = 0; i < gameArr.length; i++) {
-        for (var j = 0; j < gameArr[0].length; j++) {
-            var selectedCell = $(rows[i]).find('[col=' + j + ']');
-
-            if (gameArr[i][j] === 0 && $($('.row')[i]).find('[col='+j+']').children().hasClass('white') === true) {
-                selectedCell.children().addClass('flip').css('transition', '.5s');
-
-            } else if (gameArr[i][j] === 1 && $($('.row')[i]).find('[col='+j+']').children().hasClass('black') === true) {
-                selectedCell.children().addClass('flip').css('transition', '1s');
-
-            }
-        }
+function updateDOMGameBoard(row, col) {
+    if (player === 0) {
+        $($('.row')[row]).find('[col=' + col + ']').children().removeClass('white').addClass('black');
+    } else if (player === 1) {
+        $($('.row')[row]).find('[col=' + col + ']').children().removeClass('black').addClass('white');
     }
-
     chipCounter(gameArr);
 }
 
@@ -619,5 +627,67 @@ function resetGame() {
     chipCounter(gameArr);
     updateChipReserve();
     player = 0;
-    findPossiblePlacements();
+}
+
+function popImg(event) {
+    var mouseX = event.clientX - 150;
+    var mouseY = event.clientY - 120;
+    var leftPx = mouseX + 'px';
+    var topPx = mouseY + 'px';
+
+    if (player === 0) {
+        var assetSrc = 'assets/gun.png';
+        var assetClass = "<img class='popGun'>";
+        var assetClassSelect = '.popGun';
+
+        $('body').append($(assetClass).attr("src", assetSrc));
+        $(assetClassSelect).css('left', leftPx);
+        $(assetClassSelect).css('top', topPx);
+
+        setTimeout(function () {
+            $('.popGun').attr('src', 'assets/gun-bang.png')
+        }, 150);
+
+    } else if (player === 1) {
+        assetSrc = 'assets/tomahawk-L.png';
+        assetClass = "<img class='popAxe'>";
+        assetClassSelect = '.popAxe';
+
+        $('body').append($(assetClass).attr("src", assetSrc));
+        $(assetClassSelect).css('left', leftPx);
+        $(assetClassSelect).css('top', topPx);
+    }
+}
+function hideStuff(){
+    $('.board-container').toggleClass('shrink');
+    $('.side').toggleClass('collapse')
+
+}
+function switchModals(){
+    var parent= $(this).parent();
+    if($(this).hasClass('about')){
+        $('.dev').toggleClass('hideRight');
+        if(parent.hasClass('rules')){
+            parent.toggleClass('hideTop')
+        }else{
+            parent.toggleClass('hideLeft')
+        }
+    }else if($(this).hasClass('setting')) {
+        $('.settings').toggleClass('hideLeft');
+        if (parent.hasClass('rules')) {
+            parent.toggleClass('hideTop')
+        }else{
+            parent.toggleClass('hideRight')
+        }
+    }else{
+        $('.rules').toggleClass('hideTop');
+        if (parent.hasClass('settings')) {
+            parent.toggleClass('hideLeft')
+        }else{
+            parent.toggleClass('hideRight')
+        }
+    }
+}
+function closeModal(){
+    $('.introWrapper').css('opacity','0')
 }
