@@ -4,7 +4,8 @@ function initiateOthello() {
     $('.cell').on('click', chipPlacement);
     findPossiblePlacements();
     playerTurn();
-    $('header').on('click',hideStuff)
+    $('header').on('click',hideStuff);
+    $('.switch').on('click',switchModals);
 }
 var gameArr = [
     [null, null, null, null, null, null, null, null],
@@ -663,4 +664,32 @@ function hideStuff(){
     $('.board-container').toggleClass('shrink');
     $('.side').toggleClass('collapse')
 
+}
+function switchModals(){
+    var parent= $(this).parent();
+    if($(this).hasClass('about')){
+        $('.dev').toggleClass('hideRight');
+        if(parent.hasClass('rules')){
+            parent.toggleClass('hideTop')
+        }else{
+            parent.toggleClass('hideLeft')
+        }
+    }else if($(this).hasClass('setting')) {
+        $('.settings').toggleClass('hideLeft');
+            if (parent.hasClass('rules')) {
+                parent.toggleClass('hideTop')
+            }else{
+                parent.toggleClass('hideRight')
+            }
+    }else{
+        $('.rules').toggleClass('hideTop');
+        if (parent.hasClass('settings')) {
+            parent.toggleClass('hideLeft')
+        }else{
+            parent.toggleClass('hideRight')
+        }
+    }
+}
+function closeModal(){
+    $('.introWrapper').css('display','block')
 }
