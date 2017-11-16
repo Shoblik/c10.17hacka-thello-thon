@@ -633,18 +633,14 @@ function popImg(event) {
         var assetSrc = 'assets/gun.png';
         var assetClass = "<img class='popGun'>";
         var assetClassSelect = '.popGun';
-        
-                $('body').append($(assetClass).attr("src", assetSrc));
+
+        $('body').append($(assetClass).attr("src", assetSrc));
         $(assetClassSelect).css('left', leftPx);
         $(assetClassSelect).css('top', topPx);
-        
-            setTimeout(function () {
-                $('.popGun').attr('src', 'assets/gun-bang.png')
-            }, 150);
-    
 
-        
-        
+        setTimeout(function () {
+            $('.popGun').attr('src', 'assets/gun-bang.png')
+        }, 150);
 
     } else if (player === 1) {
         assetSrc = 'assets/tomahawk-L.png';
@@ -655,11 +651,4 @@ function popImg(event) {
         $(assetClassSelect).css('left', leftPx);
         $(assetClassSelect).css('top', topPx);
     }
-
-
-
-//    $('body').append($(assetClass).attr("src", assetSrc));
-//    $(assetClassSelect).css('left', leftPx);
-//    $(assetClassSelect).css('top', topPx);
-
 }
