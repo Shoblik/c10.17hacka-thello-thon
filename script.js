@@ -253,32 +253,54 @@ function doFlips(coordinates) {
     var countDecLeft = row - 1;
 
     //check one spot around spot clicked
-    if (gameArr[row + 1][col] === search || gameArr[row + 1][col] === null) {
+    var rowInc = row + 1;
+    var rowDec = row - 1;
+    var colInc = col + 1;
+    var colDec = col - 1;
+
+    if (rowInc > 7) {
+        rowInc = 7;
+    }
+
+    if (rowDec < 0) {
+        rowInc = 0;
+    }
+
+    if (colInc > 7) {
+        colInc = 7;
+    }
+
+    if (colDec < 0) {
+        colDec = 0;
+    }
+
+
+    if (gameArr[rowInc][col] === search || gameArr[rowInc][col] === null) {
         checkDown = false;
     }
 
-    if (gameArr[row - 1][col] === search || gameArr[row - 1][col] === null) {
+    if (gameArr[rowDec][col] === search || gameArr[rowDec][col] === null) {
         checkUp = false;
     }
 
-    if (gameArr[row][col + 1] === search || gameArr[row][col + 1] === null) {
+    if (gameArr[row][colInc] === search || gameArr[row][colInc] === null) {
         checkRight = false;
     }
 
-    if (gameArr[row][col - 1] === search || gameArr[row][col - 1] === null) {
+    if (gameArr[row][colDec] === search || gameArr[row][colDec] === null) {
         checkLeft = false;
     }
-    if (gameArr[row + 1][col + 1] === search || gameArr[row + 1][col + 1] === null) {
+    if (gameArr[rowInc][colInc] === search || gameArr[rowInc][colInc] === null) {
         checkRightInc = false;
     }
-    if (gameArr[row + 1][col - 1] === search || gameArr[row + 1][col - 1] === null) {
+    if (gameArr[rowInc][colDec] === search || gameArr[rowInc][colDec] === null) {
         checkRightDec = false;
     }
 
-    if (gameArr[row + 1][col - 1] === search || gameArr[row + 1][col - 1] === null) {
+    if (gameArr[rowInc][colDec] === search || gameArr[rowInc][colDec] === null) {
         checkLeftInc = false;
     }
-    if (gameArr[row - 1][col - 1] === search || gameArr[row - 1][col - 1] === null) {
+    if (gameArr[rowDec][colDec] === search || gameArr[rowDec][colDec] === null) {
         checkLeftDec = false;
     }
 
@@ -411,16 +433,14 @@ function doFlips(coordinates) {
 
 function updateDOMGameBoard() {
     var rows = $('.row');
-    for (var i=0;i<gameArr.length;i++) {
-        for (var j=0;j<gameArr[0].length;j++) {
-            var selectedCell = $(rows[i]).find('[col='+j+']');
+    for (var i = 0; i < gameArr.length; i++) {
+        for (var j = 0; j < gameArr[0].length; j++) {
+            var selectedCell = $(rows[i]).find('[col=' + j + ']');
             if (gameArr[i][j] === 0) {
-               selectedCell.children().removeClass('white').addClass('black');
-            }
-            else if (gameArr[i][j] === 1) {
+                selectedCell.children().removeClass('white').addClass('black');
+            } else if (gameArr[i][j] === 1) {
                 selectedCell.children().removeClass('black').addClass('white');
             }
         }
     }
 }
-
