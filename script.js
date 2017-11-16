@@ -8,6 +8,7 @@ function initiateOthello() {
     $('.switch').on('click',switchModals);
     $('.close').on('click', closeModal)
 }
+var singlePlayer = true;
 var gameArr = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -33,6 +34,7 @@ function Player(color) {
 
 
 function chipPlacement(event) {
+
     var coordinates = {
         row: $(this).attr('row'),
         col: $(this).attr('col')
@@ -257,10 +259,16 @@ function findPossiblePlacements() {
     }else{
         if(player===0){
             blackPlayer.validTurn=true;
+            validPlacement(possiblePlacementArr);
+
         }else{
             whitePlayer.validTurn=true;
+            validPlacement(possiblePlacementArr);
+            if (singlePlayer) {
+                AI(possiblePlacementArr);
+            }
         }
-        validPlacement(possiblePlacementArr);
+
     }
 }
 
@@ -575,12 +583,10 @@ function doFlips(coordinates) {
 function updateDOMGameBoard(row, col) {
     if (player === 0) {
         $($('.row')[row]).find('[col=' + col + ']').children().removeClass('white').addClass('black').css({
-            'transition-delay': '1s',
             'transition': '.8s',
         });
     } else if (player === 1) {
         $($('.row')[row]).find('[col=' + col + ']').children().removeClass('black').addClass('white').css({
-            'transition-delay': '1s',
             'transition': '.8s',
         });;
     }
@@ -698,7 +704,13 @@ function closeModal(){
     $('.introWrapper').css('top','-200%')
 }
 
+function AI(possibleCellsArr) {
+    setTimeout(function() {
+        var randomCellNum = Math.floor(Math.random() * possibleCellsArr.length);
+        $($('.row')[possibleCellsArr[randomCellNum][0]]).find('[col=' + possibleCellsArr[randomCellNum][1] + ']').click();
 
+    }, 1000);
+}
 
 
 
