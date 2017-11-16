@@ -1,12 +1,47 @@
-.container, .row, .cell {
+*{
+  border:1px solid black;
+}
+body{
+    margin:0;
+}
+#main-container{
+}
+header{
+    height: 10vmin;
+    width:100%;
+}
+.progress-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.board-container, .row, .cell {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-
-.container {
+.side{
+    max-height: 600px;
+    max-width: 300px;
+    height:70vh;
+    width:20vw;
+    display: inline-block;
+    margin: auto 9%;
+}
+.cowboy{
+    background-image: url(assets/cowboy.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.indian{
+    background-image: url(assets/indian.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.board-container {
     font-size: 0;
-    display: flex;
+    display: inline-block;
     flex-direction: column;
     max-width: 600px;
     max-height: 600px;
@@ -53,4 +88,43 @@
 }
 .valid{
     background-color: yellow;
+}
+
+.whiteDivProgress{
+    margin: 1%;
+    height: 3vmin;
+    width: 65vmin;
+    background-color: white;
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid black;
+}
+
+.blackDivProgress{
+    height: 100%;
+    width: 50%;
+    background-color: black;
+    transition-duration: 3s;
+}
+.score{
+    margin: 1%;
+    border: 1px solid black;
+    height: 3vmin;
+    width: 65vmin;
+    display: flex;
+    justify-content: space-evenly;
+
+}
+.reserve-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.chip-reserve{
+    border: 1px solid black;
+    width: 700px;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 2%;
 }

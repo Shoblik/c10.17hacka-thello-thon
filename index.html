@@ -10,7 +10,18 @@
 </head>
 
 <body>
-    <div class="container">
+<div id="main-container">
+    <header></header>
+    <div class="progress-container">
+    <div class="whiteDivProgress"><div class="blackDivProgress"></div></div>
+        <div class="score">
+          <div class="whiteScore">white score:<span></span></div>
+          <div class="blackScore">black score:<span></span></div>
+        </div>
+    </div>
+    <div class="cowboy side"></div>
+    <div class="board-container">
+
         <div class="row">
             <div class="cell" row='0' col='0'></div>
             <div class="cell" row='0' col='1'></div>
@@ -94,11 +105,16 @@
             <div class="cell" row='7' col='6'></div>
             <div class="cell" row='7' col='7'></div>
         </div>
-    </div>
-    <div class="score">
-      <div class="whiteScore">white score:</div>
-      <div class="blackScore">black score:</div>
-    </div>
-</body>
 
+    </div>
+    <div class="indian side"></div>
+    <div class="reserve-container">
+        <div class="chip-reserve">
+            <div class="black-reserve">Cowboy reserve: <span>32</span></div>
+            <div class="white-reserve">Indian reserve: <span>32</span></div>
+        </div>
+    </div>
+    <footer></footer>
+</div>
+</body>
 </html>

@@ -3,7 +3,6 @@ $(document).ready(initiateOthello);
 function initiateOthello() {
     $('.cell').on('click', chipPlacement);
     findPossiblePlacements();
-
 }
 var gameArr = [
     [null, null, null, null, null, null, null, null],
@@ -17,11 +16,9 @@ var gameArr = [
 ];
 
 var player = 0;
-var blackPlayerStack = 32;
-var whitePlayerStack = 32;
 var blackPlayer = new Player('black');
 var whitePlayer = new Player('white');
-
+var currentChipsOnBoard= 4;
 function Player(color) {
     this.chipStack = 32;
     this.validTurn = true;
@@ -37,6 +34,7 @@ function chipPlacement() {
     };
     console.log(coordinates);
     if ($(this).hasClass('valid')) {
+        currentChipsOnBoard+=1;
         if (player === 0) {
             $(this).append($('<div>', {
                 'class': blackPlayer.chipColor
@@ -45,7 +43,6 @@ function chipPlacement() {
             doFlips(coordinates);
             player += 1;
             blackPlayer.chipStack -= 1;
-            console.log(blackPlayer.chipStack)
         } else {
             $(this).append($('<div>', {
                 'class': whitePlayer.chipColor
@@ -54,14 +51,19 @@ function chipPlacement() {
             doFlips(coordinates);
             player -= 1;
             whitePlayer.chipStack -= 1;
-            console.log(whitePlayer.chipStack)
         }
+        updateChipReserve();
         turnoffValidPlacementHint();
-        findPossiblePlacements()
+        findPossiblePlacements();
         return coordinates;
     } else {
         console.log('not a legal move')
     }
+
+}
+function updateChipReserve(){
+    $('.black-reserve >span').text(blackPlayer.chipStack);
+    $('.white-reserve >span').text(whitePlayer.chipStack);
 }
 
 function findPossiblePlacements() {
@@ -217,8 +219,8 @@ function chipCounter(arr) { //this'll after flip function
         blackCount: 0,
         whiteCount: 0
     };
-    for (i = 0; i < arr.length; i++) {
-        for (p = 0; p < arr[i].length; p++) {
+    for (var i = 0; i < arr.length; i++) {
+        for (var p = 0; p < arr[i].length; p++) {
             if (arr[i][p] === 0) {
                 counterObj.blackCount += 1;
             } else if (arr[i][p] === 1) {
@@ -226,9 +228,16 @@ function chipCounter(arr) { //this'll after flip function
             }
         }
     }
+    updateChipsBar(counterObj);
     return counterObj;
 }
+function updateChipsBar(chipCount){
+    var barProgressPercent = (chipCount.blackCount/currentChipsOnBoard)*100;
+    $('.blackDivProgress').css('width', barProgressPercent+"%");
+    $('.whiteScore > span').text(chipCount.whiteCount);
+    $('.blackScore > span').text(chipCount.blackCount);
 
+}
 function winCheck() {
     var currentCounter = chipCounter(gameArr); //returns an object with whiteCount and blackCount
     if (blackPlayerStack === 0 && whitePlayerStack === 0 || !blackPlayer.validTurn && !whitePlayer.validTurn) {
@@ -473,6 +482,7 @@ function doFlips(coordinates) {
 
 function updateDOMGameBoard() {
     var rows = $('.row');
+
     for (var i = 0; i < gameArr.length; i++) {
         for (var j = 0; j < gameArr[0].length; j++) {
             var selectedCell = $(rows[i]).find('[col=' + j + ']');
@@ -483,7 +493,6 @@ function updateDOMGameBoard() {
             }
         }
     }
-    $('.whiteScore').text('white score: '+ $('.white').length);
-    $('.blackScore').text('white score: '+ $('.black').length);
-
+    chipCounter(gameArr);
 }
+
