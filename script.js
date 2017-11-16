@@ -372,7 +372,6 @@ function doFlips(coordinates) {
             //finds endpoint and flips inbetween
             for (var b = row; b <= a; b++) {
                 gameArr[b][col] = search;
-                console.log('flipping at' +  b, col);
                 updateDOMGameBoard(b,col);
             }
             checkDown = false;
@@ -385,6 +384,7 @@ function doFlips(coordinates) {
             //finds endpoint and flips inbetween
             for (var d = row; d >= c; d--) {
                 gameArr[d][col] = search;
+                updateDOMGameBoard(d,col);
             }
             checkUp = false;
         }
@@ -397,6 +397,7 @@ function doFlips(coordinates) {
 
             for (var k = col; k <= i; k++) {
                 gameArr[row][k] = search;
+                updateDOMGameBoard(row,k);
             }
 
             checkRight = false;
@@ -413,8 +414,8 @@ function doFlips(coordinates) {
             diagRowBegin = row + 1;
             diagColBegin = col + 1;
             for (diagRowBegin; diagRowBegin < countInc; diagRowBegin++, diagColBegin++) {
-
                 gameArr[diagRowBegin][diagColBegin] = search;
+                updateDOMGameBoard(diagRowBegin,diagColBegin);
             }
             checkRightInc = false;
 
@@ -429,8 +430,8 @@ function doFlips(coordinates) {
             diagColBegin = col + 1;
 
             for (diagRowBegin; diagRowBegin > countDec; diagRowBegin--, diagColBegin++) {
-
                 gameArr[diagRowBegin][diagColBegin] = search;
+                updateDOMGameBoard(diagRowBegin,diagColBegin);
             }
             checkRightDec = false;
 
@@ -448,6 +449,7 @@ function doFlips(coordinates) {
         if (checkLeft === true && gameArr[row][j] === search) {
             for (var z = col; z >= j; z--) {
                 gameArr[row][z] = search;
+                updateDOMGameBoard(row,z);
             }
             checkLeft = false;
 
@@ -464,8 +466,8 @@ function doFlips(coordinates) {
             diagColBeginLeft = col - 1;
 
             for (diagRowBeginLeft; diagRowBeginLeft < countIncLeft; diagRowBeginLeft++, diagColBeginLeft--) {
-
                 gameArr[diagRowBeginLeft][diagColBeginLeft] = search;
+                updateDOMGameBoard(diagRowBeginLeft,diagColBeginLeft);
             }
 
             checkLeftInc = false;
@@ -482,6 +484,7 @@ function doFlips(coordinates) {
             for (diagRowBeginLeft; diagRowBeginLeft > countDecLeft; diagRowBeginLeft--, diagColBeginLeft--) {
 
                 gameArr[diagRowBeginLeft][diagColBeginLeft] = search;
+                updateDOMGameBoard(diagRowBeginLeft,diagColBeginLeft);
             }
 
             checkLeftDec = false;
@@ -490,18 +493,16 @@ function doFlips(coordinates) {
         countDecLeft--;
     }
     console.log(gameArr);
-    updateDOMGameBoard();
+    // updateDOMGameBoard();
 }
 
 function updateDOMGameBoard(row, col) {
     if (player === 0) {
-        console.log($('.row')[row].find('[col='+col+']'));
-        $('.row')[row].find('[col='+col+']').removeClass('white').addClass('black');
+        $($('.row')[row]).find('[col='+col+']').children().removeClass('white').addClass('black');
     }
     else if (player === 1) {
-        console.log($('.row')[row].find('[col='+col+']'));
-        $('.row')[row].find('[col='+col+']').removeClass('black').addClass('white');
+        $($('.row')[row]).find('[col='+col+']').children().removeClass('black').addClass('white');
     }
-    // chipCounter(gameArr);
+    chipCounter(gameArr);
 }
 
