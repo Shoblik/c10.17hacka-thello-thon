@@ -29,12 +29,13 @@ function Player(color) {
 }
 
 
-function chipPlacement() {
+function chipPlacement(event) {
     var coordinates = {
         row: $(this).attr('row'),
         col: $(this).attr('col')
     };
     console.log(coordinates);
+    
     if ($(this).hasClass('valid')) {
         currentChipsOnBoard += 1;
         if (player === 0) {
@@ -44,6 +45,10 @@ function chipPlacement() {
 
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 0;
             doFlips(coordinates);
+            //
+            popImg(event);
+            $('.popGun').fadeOut(3000, 'swing');
+            //
             player += 1;
             blackPlayer.chipStack -= 1;
         } else {
@@ -52,6 +57,10 @@ function chipPlacement() {
             }));
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 1;
             doFlips(coordinates);
+            //
+            popImg(event);
+            $('.popAxe').fadeOut(3000, 'swing');
+            //
             player -= 1;
             whitePlayer.chipStack -= 1;
         }
@@ -623,3 +632,26 @@ function doFlips(coordinates) {
         findPossiblePlacements();
     }
 
+function popImg(event) {
+    
+    if(player === 0) {
+        var assetSrc = 'assets/gun.png';
+        var assetClass = "<img class='popGun'>";
+        var assetClassSelect = '.popGun';
+        
+    } else if (player === 1) {
+        assetSrc = 'assets/tomahawk-L.png';
+        assetClass = "<img class='popAxe'>";
+        assetClassSelect = '.popAxe';
+    }
+    
+    var mouseX = event.clientX - 150;
+    var mouseY = event.clientY - 120;
+    var leftPx = mouseX + 'px';
+    var topPx = mouseY + 'px';
+
+    $('body').append($(assetClass).attr("src", assetSrc));
+    $(assetClassSelect).css('left', leftPx);
+    $(assetClassSelect).css('top', topPx);
+
+}

@@ -178,3 +178,16 @@ header > img {
     justify-content: space-evenly;
     margin: 2%;
 }
+
+.popAxe {
+    height: 10%;
+    width: 10%;
+    position: absolute;
+    -webkit-animation: spin 3s linear infinite;
+}
+
+.popGun {
+    height: 10%;
+    width: 10%;
+    position: absolute;
+}
