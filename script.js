@@ -3,7 +3,6 @@ $(document).ready(initiateOthello);
 function initiateOthello() {
     $('.cell').on('click', chipPlacement);
     findPossiblePlacements();
-
 }
 var gameArr = [
     [null, null, null, null, null, null, null, null],
@@ -21,7 +20,7 @@ var blackPlayerStack = 32;
 var whitePlayerStack = 32;
 var blackPlayer = new Player('black');
 var whitePlayer = new Player('white');
-
+var currentChipsOnBoard= 4;
 function Player(color) {
     this.chipStack = 32;
     this.validTurn = true;
@@ -37,6 +36,7 @@ function chipPlacement() {
     };
     console.log(coordinates);
     if ($(this).hasClass('valid')) {
+        currentChipsOnBoard+=1;
         if (player === 0) {
             $(this).append($('<div>', {
                 'class': blackPlayer.chipColor
@@ -177,8 +177,8 @@ function chipCounter(arr) { //this'll after flip function
         blackCount: 0,
         whiteCount: 0
     };
-    for (i = 0; i < arr.length; i++) {
-        for (p = 0; p < arr[i].length; p++) {
+    for (var i = 0; i < arr.length; i++) {
+        for (var p = 0; p < arr[i].length; p++) {
             if (arr[i][p] === 0) {
                 counterObj.blackCount += 1;
             } else if (arr[i][p] === 1) {
@@ -186,9 +186,16 @@ function chipCounter(arr) { //this'll after flip function
             }
         }
     }
+    updateChipsBar(counterObj);
     return counterObj;
 }
+function updateChipsBar(chipCount){
+    var barProgressPercent = (chipCount.blackCount/currentChipsOnBoard)*100;
+    $('.blackDivProgress').css('width', barProgressPercent+"%");
+    $('.whiteScore > span').text(chipCount.whiteCount);
+    $('.blackScore > span').text(chipCount.blackCount);
 
+}
 function winCheck() {
     var currentCounter = chipCounter(gameArr); //returns an object with whiteCount and blackCount
     if (blackPlayerStack === 0 && whitePlayerStack === 0 || !blackPlayer.validTurn && !whitePlayer.validTurn) {
@@ -287,13 +294,12 @@ function doFlips(coordinates) {
 
     for (var a = row + 1; a <= 7; a++) {
         //checks down row
-
         if (checkDown === true && gameArr[a][col] === search) {
             //finds endpoint and flips inbetween
-            for (var b = row; b <= i; b++) {
+            for (var b = row; b <= a; b++) {
                 gameArr[b][col] = search;
             }
-         checkDown = false;   
+            checkDown = false;
         }
     }
 
@@ -306,7 +312,7 @@ function doFlips(coordinates) {
             }
             checkUp = false;
         }
-        
+
     }
     for (var i = col + 1; i <= 7; i++) {
         //checks right
@@ -424,4 +430,7 @@ function updateDOMGameBoard() {
             }
         }
     }
+    chipCounter(gameArr);
 }
+
+
