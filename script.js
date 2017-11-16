@@ -393,7 +393,7 @@ function doFlips(coordinates) {
                 if(gameArr[b][col] === null || gameArr[b+1][col] === null) {
                     checkDown = false;
                 }
-                if(checkDown === true) {
+                if(checkDown === true && gameArr[b][col] != null) {
                     gameArr[b][col] = search;
                 }   
             }
@@ -410,7 +410,7 @@ function doFlips(coordinates) {
                     checkUp = false;
                 }
                 
-                if(checkUp === true) {
+                if(checkUp === true && gameArr[d][col] != null) {
                     gameArr[d][col] = search;
                 }   
             }
@@ -429,7 +429,7 @@ function doFlips(coordinates) {
                     checkRight = false;
                 }
                 
-                if(checkRight === true) {
+                if(checkRight === true && gameArr[row][k] != null) {
                     gameArr[row][k] = search;
                 }
                 
@@ -454,7 +454,7 @@ function doFlips(coordinates) {
                     checkRightInc = false;
                 }
                 
-                if(checkRightInc === true) {
+                if(checkRightInc === true && gameArr[diagRowBegin][diagColBegin] != null) {
                       gameArr[diagRowBegin][diagColBegin] = search;
                 } 
             }
@@ -475,7 +475,7 @@ function doFlips(coordinates) {
                     checkRightDec = false;
                 }
                 
-                if(checkRightDec === true) {
+                if(checkRightDec === true && gameArr[diagRowBegin][diagColBegin] != null) {
                      gameArr[diagRowBegin][diagColBegin] = search;
                 }
                
@@ -498,7 +498,7 @@ function doFlips(coordinates) {
                 if(gameArr[row][z] === null || gameArr[row][z-1] === null) {
                     checkLeft = false;
                 }
-                if(checkLeft === true) {
+                if(checkLeft === true && gameArr[row][z] != null) {
                 gameArr[row][z] = search; 
                 }
                 
@@ -522,7 +522,7 @@ function doFlips(coordinates) {
                 if(gameArr[diagRowBeginLeft][diagColBeginLeft] === null || gameArr[diagRowBeginLeft+1][diagColBeginLeft-1] === null) {
                     checkLeftInc = false;
                 }
-                if(checkLeftInc === true) {
+                if(checkLeftInc === true && gameArr[diagRowBeginLeft][diagColBeginLeft] != null) {
                    gameArr[diagRowBeginLeft][diagColBeginLeft] = search; 
                 }
                 
@@ -544,7 +544,7 @@ function doFlips(coordinates) {
                 if(gameArr[diagRowBeginLeft][diagColBeginLeft] === null || gameArr[diagRowBeginLeft-1][diagColBeginLeft-1] === null) {
                  checkLeftDec = false;   
                 }
-                if(checkLeftDec === true) {
+                if(checkLeftDec === true && gameArr[diagRowBeginLeft][diagColBeginLeft] != null) {
                   gameArr[diagRowBeginLeft][diagColBeginLeft] = search;  
                 }
                 
