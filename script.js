@@ -16,8 +16,6 @@ var gameArr = [
 ];
 
 var player = 0;
-var blackPlayerStack = 32;
-var whitePlayerStack = 32;
 var blackPlayer = new Player('black');
 var whitePlayer = new Player('white');
 var currentChipsOnBoard= 4;
@@ -45,7 +43,6 @@ function chipPlacement() {
             doFlips(coordinates);
             player += 1;
             blackPlayer.chipStack -= 1;
-            console.log(blackPlayer.chipStack)
         } else {
             $(this).append($('<div>', {
                 'class': whitePlayer.chipColor
@@ -54,8 +51,8 @@ function chipPlacement() {
             doFlips(coordinates);
             player -= 1;
             whitePlayer.chipStack -= 1;
-            console.log(whitePlayer.chipStack)
         }
+        updateChipReserve();
         turnoffValidPlacementHint();
         findPossiblePlacements();
         return coordinates;
@@ -63,6 +60,10 @@ function chipPlacement() {
         console.log('not a legal move')
     }
 
+}
+function updateChipReserve(){
+    $('.black-reserve >span').text(blackPlayer.chipStack);
+    $('.white-reserve >span').text(whitePlayer.chipStack);
 }
 
 function findPossiblePlacements() {
