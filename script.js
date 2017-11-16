@@ -372,6 +372,8 @@ function doFlips(coordinates) {
             //finds endpoint and flips inbetween
             for (var b = row; b <= a; b++) {
                 gameArr[b][col] = search;
+                console.log('flipping at' +  b, col);
+                updateDOMGameBoard(b,col);
             }
             checkDown = false;
         }
@@ -491,19 +493,15 @@ function doFlips(coordinates) {
     updateDOMGameBoard();
 }
 
-function updateDOMGameBoard() {
-    var rows = $('.row');
-
-    for (var i = 0; i < gameArr.length; i++) {
-        for (var j = 0; j < gameArr[0].length; j++) {
-            var selectedCell = $(rows[i]).find('[col=' + j + ']');
-            if (gameArr[i][j] === 0) {
-                selectedCell.children().removeClass('white').addClass('black');
-            } else if (gameArr[i][j] === 1) {
-                selectedCell.children().removeClass('black').addClass('white');
-            }
-        }
+function updateDOMGameBoard(row, col) {
+    if (player === 0) {
+        console.log($('.row')[row].find('[col='+col+']'));
+        $('.row')[row].find('[col='+col+']').removeClass('white').addClass('black');
     }
-    chipCounter(gameArr);
+    else if (player === 1) {
+        console.log($('.row')[row].find('[col='+col+']'));
+        $('.row')[row].find('[col='+col+']').removeClass('black').addClass('white');
+    }
+    // chipCounter(gameArr);
 }
 
