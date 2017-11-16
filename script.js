@@ -7,7 +7,8 @@ function initiateOthello() {
     $('header').on('click',hideStuff);
     $('.switch').on('click',switchModals);
     $('.close').on('click', closeModal);
-    $('.try-again').on('click',resetGame);
+    $('.try-again').on('click',closeModal)
+
 }
 var gameArr = [
     [null, null, null, null, null, null, null, null],
@@ -39,6 +40,9 @@ function chipPlacement(event) {
         col: $(this).attr('col')
     };
     console.log(coordinates);
+    var chipCountBefore = chipCounter(gameArr);
+    var chipCountAfter = null;
+    var chipDifference;
 
     if ($(this).hasClass('valid')) {
         currentChipsOnBoard += 1;
@@ -49,12 +53,19 @@ function chipPlacement(event) {
 
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 0;
             doFlips(coordinates);
-            //
-            popImg(event);
-            setTimeout(function () {
-                $('.popGun').fadeOut(1000, 'swing')
-            }, 1000);
-            //
+
+            chipCountAfter = chipCounter(gameArr);
+            chipDifference = Math.abs(chipCountBefore.blackCount - chipCountAfter.blackCount);
+
+            if (chipDifference > 5) {
+                popImg(event);
+                setTimeout(function () {
+                    $('.popBomb').fadeOut(250, function () {
+                        $('.popBomb').remove();
+                    })
+                }, 500);
+            }
+
             player += 1;
             blackPlayer.chipStack -= 1;
         } else {
@@ -63,12 +74,19 @@ function chipPlacement(event) {
             }));
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 1;
             doFlips(coordinates);
-            //
-            popImg(event);
-            setTimeout(function () {
-                $('.popAxe').fadeOut(250, 'swing')
-            }, 500);
-            //
+
+            chipCountAfter = chipCounter(gameArr);
+            chipDifference = Math.abs(chipCountBefore.whiteCount - chipCountAfter.whiteCount);
+
+            if (chipDifference > 5) {
+                popImg(event);
+                setTimeout(function () {
+                    $('.popAxe').fadeOut(250, function () {
+                        $('.popAxe').remove();
+                    })
+                }, 500);
+            }
+
             player -= 1;
             whitePlayer.chipStack -= 1;
         }
@@ -261,7 +279,7 @@ function findPossiblePlacements() {
                 whitePlayer.validTurn=true;
             }
         validPlacement(possiblePlacementArr);
-        }
+    }
 }
 
 function chipCounter(arr) { //this'll after flip function
@@ -635,60 +653,65 @@ function popImg(event) {
     var topPx = mouseY + 'px';
 
     if (player === 0) {
-        var assetSrc = 'assets/gun.png';
-        var assetClass = "<img class='popGun'>";
-        var assetClassSelect = '.popGun';
-
-        $('body').append($(assetClass).attr("src", assetSrc));
-        $(assetClassSelect).css('left', leftPx);
-        $(assetClassSelect).css('top', topPx);
-
-        setTimeout(function () {
-            $('.popGun').attr('src', 'assets/gun-bang.png')
-        }, 150);
+        var assetSrc = 'assets/bomb.png';
+        var assetClass = "<img class='popBomb'>";
+        var assetClassSelect = '.popBomb';
 
     } else if (player === 1) {
         assetSrc = 'assets/tomahawk-L.png';
         assetClass = "<img class='popAxe'>";
         assetClassSelect = '.popAxe';
 
-        $('body').append($(assetClass).attr("src", assetSrc));
-        $(assetClassSelect).css('left', leftPx);
-        $(assetClassSelect).css('top', topPx);
+
     }
+
+    $('body').append($(assetClass).attr("src", assetSrc));
+    $(assetClassSelect).css('left', leftPx);
+    $(assetClassSelect).css('top', topPx);
+
 }
-function hideStuff(){
+
+function hideStuff() {
     $('.board-container').toggleClass('shrink');
     $('.side').toggleClass('collapse')
 
 }
-function switchModals(){
-    var parent= $(this).parent();
-    if($(this).hasClass('about')){
+
+function switchModals() {
+    var parent = $(this).parent();
+    if ($(this).hasClass('about')) {
         $('.dev').toggleClass('hideRight');
-        if(parent.hasClass('rules')){
+        if (parent.hasClass('rules')) {
             parent.toggleClass('hideTop')
-        }else{
+        } else {
             parent.toggleClass('hideLeft')
         }
-    }else if($(this).hasClass('setting')) {
+    } else if ($(this).hasClass('setting')) {
         $('.settings').toggleClass('hideLeft');
         if (parent.hasClass('rules')) {
             parent.toggleClass('hideTop')
-        }else{
+        } else {
             parent.toggleClass('hideRight')
         }
-    }else{
+    } else {
         $('.rules').toggleClass('hideTop');
         if (parent.hasClass('settings')) {
             parent.toggleClass('hideLeft')
-        }else{
+        } else {
             parent.toggleClass('hideRight')
         }
     }
 }
-function closeModal(){
-    $('.introWrapper').css('top','-200%')
+
+function closeModal() {
+    var parent = $(this).parent();
+    if(parent.hasClass('win')){
+        $('.end-window').fadeOut();
+        resetGame();
+    }else{
+        $('.introWrapper').css('top', '-200%')
+    }
+
 }
 function winWindow(winningPlayer){
     if(winningPlayer==='black'){
