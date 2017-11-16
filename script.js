@@ -1,5 +1,6 @@
 $(document).ready(initiateOthello);
-
+var singlePlayer = true;
+var hints = true;
 function initiateOthello() {
     $('.cell').on('click', chipPlacement);
     findPossiblePlacements();
@@ -7,9 +8,21 @@ function initiateOthello() {
     $('header').on('click',hideStuff);
     $('.switch').on('click',switchModals);
     $('.close').on('click', closeModal);
-    $('.try-again').on('click',closeModal)
-
+    $('.try-again').on('click',closeModal);
+    $('.singlePlayer').on('click', function() {
+       singlePlayer = true;
+    });
+    $('.twoPlayer').on('click', function() {
+       singlePlayer = false;
+    });
+    $('.hintsOn').on('click', function() {
+        hints = true;
+    });
+    $('.hintsOff').on('click', function() {
+        hints = false;
+    });
 }
+
 var gameArr = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null],
@@ -35,6 +48,7 @@ function Player(color) {
 
 
 function chipPlacement(event) {
+
     var coordinates = {
         row: $(this).attr('row'),
         col: $(this).attr('col')
@@ -259,26 +273,30 @@ function findPossiblePlacements() {
         }
     }
     if(possiblePlacementArr.length===0){
-            if(player===0){
-                blackPlayer.validTurn=false;
-                player+=1;
-            }else {
-                whitePlayer.validTurn = false;
-                player -= 1;
-
+        if(player===0){
+            blackPlayer.validTurn=false;
+            player+=1;
+        }else {
+            whitePlayer.validTurn = false;
+            player -= 1;
             }
             if(whitePlayer.validTurn || blackPlayer.validTurn){
                 player=0;
                 findPossiblePlacements();
             }
         winCheck();
-        }else{
-            if(player===0){
-                blackPlayer.validTurn=true;
-            }else{
-                whitePlayer.validTurn=true;
+    } else {
+        if (player === 0) {
+            blackPlayer.validTurn = true;
+            validPlacement(possiblePlacementArr);
+        } else {
+            whitePlayer.validTurn = true;
+            validPlacement(possiblePlacementArr);
+            if (singlePlayer) {
+                AI(possiblePlacementArr);
             }
-        validPlacement(possiblePlacementArr);
+
+        }
     }
 }
 
@@ -328,18 +346,31 @@ function winCheck() {
 }
 
 function turnoffValidPlacementHint() {
+
     $('.cell').each(function () {
         $(this).removeClass('valid')
     })
 }
 
 function validPlacement(arr) { //gets array from possible placement function containing coordinates that that'll added a class of valid;
-    for (var i = 0; i < arr.length; i++) {
-        var row = arr[i][0];
-        var col = arr[i][1];
-        var rows = $('.row');
-        $(rows[row]).find("[col=" + col + "]").addClass("valid");
+    if (hints) {
+        for (var i = 0; i < arr.length; i++) {
+            var row = arr[i][0];
+            var col = arr[i][1];
+            var rows = $('.row');
+            $(rows[row]).find("[col=" + col + "]").addClass("valid");
+        }
+
+    } else {
+        for (var i = 0; i < arr.length; i++) {
+            var row = arr[i][0];
+            var col = arr[i][1];
+            var rows = $('.row');
+            $(rows[row]).find("[col=" + col + "]").addClass("valid").css('background-color', 'inherit');
+        }
+
     }
+
 }
 console.log(findPossiblePlacements());
 
@@ -591,9 +622,13 @@ function doFlips(coordinates) {
 
 function updateDOMGameBoard(row, col) {
     if (player === 0) {
-        $($('.row')[row]).find('[col=' + col + ']').children().removeClass('white').addClass('black');
+        $($('.row')[row]).find('[col=' + col + ']').children().removeClass('white').addClass('black').css({
+            'transition': '.8s',
+        });
     } else if (player === 1) {
-        $($('.row')[row]).find('[col=' + col + ']').children().removeClass('black').addClass('white');
+        $($('.row')[row]).find('[col=' + col + ']').children().removeClass('black').addClass('white').css({
+            'transition': '.8s',
+        });;
     }
     chipCounter(gameArr);
 }
@@ -658,6 +693,10 @@ function popImg(event) {
         var assetClassSelect = '.popBomb';
 
     } else if (player === 1) {
+        if (singlePlayer) {
+            leftPx = '1000px';
+            topPx = '300px';
+        }
         assetSrc = 'assets/tomahawk-L.png';
         assetClass = "<img class='popAxe'>";
         assetClassSelect = '.popAxe';
@@ -711,7 +750,6 @@ function closeModal() {
     }else{
         $('.introWrapper').css('top', '-200%')
     }
-
 }
 function winWindow(winningPlayer){
     if(winningPlayer==='black'){
@@ -721,3 +759,15 @@ function winWindow(winningPlayer){
     }
     $('.end-window').css('display','block')
 }
+
+
+function AI(possibleCellsArr) {
+    setTimeout(function() {
+        var randomCellNum = Math.floor(Math.random() * possibleCellsArr.length);
+        $($('.row')[possibleCellsArr[randomCellNum][0]]).find('[col=' + possibleCellsArr[randomCellNum][1] + ']').click();
+
+    }, 1000);
+}
+
+
+
