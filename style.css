@@ -89,24 +89,27 @@ header{
     height: 100%;
     align-content: center;
     justify-content: center;
-    
+    backface-visibility: hidden;
 }
 .black{
-    margin-top: 5%;
+    margin-top: .7%;
     border-radius: 50%;
     background-color: black;
-    height: 90%;
-    width: 90%;
+    height: 5%;
+    width: 3%;
+    position: absolute;
+
 }
 
 .white{
-    margin-top: 5%;
+    margin-top: .7%;
     border-radius: 50%;
     background-color: white;
     border: 1px solid black;
-    height: 90%;
-    width: 90%;
-    
+    height: 5%;
+    width: 3%;
+    position: absolute;
+
 }
 
 .valid{
@@ -150,4 +153,8 @@ header{
     display: flex;
     justify-content: space-evenly;
     margin: 2%;
+}
+.flip {
+    transform: rotateY(180deg);
+    transition: 1s;
 }

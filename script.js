@@ -47,6 +47,9 @@ function chipPlacement() {
         currentChipsOnBoard+=1;
         if (player === 0) {
             $(this).append($('<div>', {
+                'class': whitePlayer.chipColor
+            }));
+            $(this).append($('<div>', {
                 'class': blackPlayer.chipColor
             }));
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 0;
@@ -54,6 +57,7 @@ function chipPlacement() {
             player += 1;
             blackPlayer.chipStack -= 1;
         } else {
+            $(this).append($('<div>').addClass(blackPlayer.chipColor));
             $(this).append($('<div>', {
                 'class': whitePlayer.chipColor
             }));
@@ -222,7 +226,9 @@ function findPossiblePlacements() {
             }
         }
     }
+
     validPlacement(possiblePlacementArr);
+
 }
 
 function chipCounter(arr) { //this'll after flip function
@@ -493,17 +499,25 @@ function doFlips(coordinates) {
 
 function updateDOMGameBoard() {
     var rows = $('.row');
+    var delay = 0;
+
+
+    $($('.row')[3]).find('[col=3]').children().hasClass('white');
 
     for (var i = 0; i < gameArr.length; i++) {
         for (var j = 0; j < gameArr[0].length; j++) {
             var selectedCell = $(rows[i]).find('[col=' + j + ']');
-            if (gameArr[i][j] === 0) {
-                selectedCell.children().removeClass('white').addClass('black');
-            } else if (gameArr[i][j] === 1) {
-                selectedCell.children().removeClass('black').addClass('white');
+
+            if (gameArr[i][j] === 0 && $($('.row')[i]).find('[col='+j+']').children().hasClass('white') === true) {
+                selectedCell.children().addClass('flip').css('transition', '.5s');
+
+            } else if (gameArr[i][j] === 1 && $($('.row')[i]).find('[col='+j+']').children().hasClass('black') === true) {
+                selectedCell.children().addClass('flip').css('transition', '1s');
+
             }
         }
     }
+
     chipCounter(gameArr);
 }
 
