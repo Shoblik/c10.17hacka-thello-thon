@@ -689,5 +689,5 @@ function switchModals(){
     }
 }
 function closeModal(){
-    $('.introWrapper').css('opacity','0')
+    $('.introWrapper').css('display', 'none');
 }
