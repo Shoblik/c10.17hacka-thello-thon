@@ -4,6 +4,9 @@ function initiateOthello() {
     $('.cell').on('click', chipPlacement);
     findPossiblePlacements();
     playerTurn();
+    $('header').on('click', hideStuff);
+    $('.switch').on('click', switchModals);
+    $('.close').on('click', closeModal)
 }
 var gameArr = [
     [null, null, null, null, null, null, null, null],
@@ -35,6 +38,9 @@ function chipPlacement(event) {
         col: $(this).attr('col')
     };
     console.log(coordinates);
+    var chipCountBefore = chipCounter(gameArr);
+    var chipCountAfter = null;
+    var chipDifference;
 
     if ($(this).hasClass('valid')) {
         currentChipsOnBoard += 1;
@@ -45,12 +51,19 @@ function chipPlacement(event) {
 
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 0;
             doFlips(coordinates);
-            //
-            popImg(event);
-            setTimeout(function () {
-                $('.popGun').fadeOut(1000, 'swing')
-            }, 1000);
-            //
+
+            chipCountAfter = chipCounter(gameArr);
+            chipDifference = Math.abs(chipCountBefore.blackCount - chipCountAfter.blackCount);
+
+            if (chipDifference > 5) {
+                popImg(event);
+                setTimeout(function () {
+                    $('.popBomb').fadeOut(250, function () {
+                        $('.popBomb').remove();
+                    })
+                }, 500);
+            }
+
             player += 1;
             blackPlayer.chipStack -= 1;
         } else {
@@ -59,12 +72,19 @@ function chipPlacement(event) {
             }));
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 1;
             doFlips(coordinates);
-            //
-            popImg(event);
-            setTimeout(function () {
-                $('.popAxe').fadeOut(250, 'swing')
-            }, 500);
-            //
+
+            chipCountAfter = chipCounter(gameArr);
+            chipDifference = Math.abs(chipCountBefore.whiteCount - chipCountAfter.whiteCount);
+
+            if (chipDifference > 5) {
+                popImg(event);
+                setTimeout(function () {
+                    $('.popAxe').fadeOut(250, function () {
+                        $('.popAxe').remove();
+                    })
+                }, 500);
+            }
+
             player -= 1;
             whitePlayer.chipStack -= 1;
         }
@@ -241,20 +261,24 @@ function findPossiblePlacements() {
         if (player === 0) {
             blackPlayer.validTurn = false;
             player += 1;
-            findPossiblePlacements();
         } else {
             whitePlayer.validTurn = false;
             player -= 1;
+
         }
-        findPossiblePlacements();
+        if (whitePlayer.validTurn || blackPlayer.validTurn) {
+            player = 0;
+            findPossiblePlacements();
+        }
+
     } else {
         if (player === 0) {
             blackPlayer.validTurn = true;
         } else {
             whitePlayer.validTurn = true;
         }
+        validPlacement(possiblePlacementArr);
     }
-    validPlacement(possiblePlacementArr);
 }
 
 function chipCounter(arr) { //this'll after flip function
@@ -310,7 +334,7 @@ function turnoffValidPlacementHint() {
 }
 
 function validPlacement(arr) { //gets array from possible placement function containing coordinates that that'll added a class of valid;
-    for (i = 0; i < arr.length; i++) {
+    for (var i = 0; i < arr.length; i++) {
         var row = arr[i][0];
         var col = arr[i][1];
         var rows = $('.row');
@@ -586,15 +610,15 @@ function playerTurn() {
 
 function resetGame() {
     gameArr = [
-            [null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null],
-            [null, null, null, 0, 1, null, null, null],
-            [null, null, null, 1, 0, null, null, null],
-            [null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null]
-        ];
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, 0, 1, null, null, null],
+        [null, null, null, 1, 0, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null]
+    ];
     turnoffValidPlacementHint();
     $('.cell').each(function () {
         $(this).empty()
@@ -620,7 +644,6 @@ function resetGame() {
     chipCounter(gameArr);
     updateChipReserve();
     player = 0;
-    findPossiblePlacements();
 }
 
 function popImg(event) {
@@ -630,25 +653,56 @@ function popImg(event) {
     var topPx = mouseY + 'px';
 
     if (player === 0) {
-        var assetSrc = 'assets/gun.png';
-        var assetClass = "<img class='popGun'>";
-        var assetClassSelect = '.popGun';
-
-        $('body').append($(assetClass).attr("src", assetSrc));
-        $(assetClassSelect).css('left', leftPx);
-        $(assetClassSelect).css('top', topPx);
-
-        setTimeout(function () {
-            $('.popGun').attr('src', 'assets/gun-bang.png')
-        }, 150);
+        var assetSrc = 'assets/bomb.png';
+        var assetClass = "<img class='popBomb'>";
+        var assetClassSelect = '.popBomb';
 
     } else if (player === 1) {
         assetSrc = 'assets/tomahawk-L.png';
         assetClass = "<img class='popAxe'>";
         assetClassSelect = '.popAxe';
 
-        $('body').append($(assetClass).attr("src", assetSrc));
-        $(assetClassSelect).css('left', leftPx);
-        $(assetClassSelect).css('top', topPx);
+
     }
+
+    $('body').append($(assetClass).attr("src", assetSrc));
+    $(assetClassSelect).css('left', leftPx);
+    $(assetClassSelect).css('top', topPx);
+
+}
+
+function hideStuff() {
+    $('.board-container').toggleClass('shrink');
+    $('.side').toggleClass('collapse')
+
+}
+
+function switchModals() {
+    var parent = $(this).parent();
+    if ($(this).hasClass('about')) {
+        $('.dev').toggleClass('hideRight');
+        if (parent.hasClass('rules')) {
+            parent.toggleClass('hideTop')
+        } else {
+            parent.toggleClass('hideLeft')
+        }
+    } else if ($(this).hasClass('setting')) {
+        $('.settings').toggleClass('hideLeft');
+        if (parent.hasClass('rules')) {
+            parent.toggleClass('hideTop')
+        } else {
+            parent.toggleClass('hideRight')
+        }
+    } else {
+        $('.rules').toggleClass('hideTop');
+        if (parent.hasClass('settings')) {
+            parent.toggleClass('hideLeft')
+        } else {
+            parent.toggleClass('hideRight')
+        }
+    }
+}
+
+function closeModal() {
+    $('.introWrapper').css('top', '-200%')
 }
