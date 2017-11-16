@@ -354,7 +354,7 @@ function doFlips(coordinates) {
     if (gameArr[rowInc][colInc] === search || gameArr[rowInc][colInc] === null) {
         checkRightInc = false;
     }
-    if (gameArr[rowInc][colDec] === search || gameArr[rowInc][colDec] === null) {
+    if (gameArr[rowDec][colInc] === search || gameArr[rowDec][colInc] === null) {
         checkRightDec = false;
     }
 
@@ -372,7 +372,12 @@ function doFlips(coordinates) {
         if (checkDown === true && gameArr[a][col] === search) {
             //finds endpoint and flips inbetween
             for (var b = row; b <= a; b++) {
-                gameArr[b][col] = search;
+                if(gameArr[b][col] === null || gameArr[b+1][col] === null) {
+                    checkDown = false;
+                }
+                if(checkDown === true) {
+                    gameArr[b][col] = search;
+                }   
             }
             checkDown = false;
         }
@@ -383,7 +388,13 @@ function doFlips(coordinates) {
         if (checkUp === true && gameArr[c][col] === search) {
             //finds endpoint and flips inbetween
             for (var d = row; d >= c; d--) {
-                gameArr[d][col] = search;
+                if(gameArr[d][col]=== null || gameArr[d-1][col]=== null) {
+                    checkUp = false;
+                }
+                
+                if(checkUp === true) {
+                    gameArr[d][col] = search;
+                }   
             }
             checkUp = false;
         }
@@ -395,7 +406,15 @@ function doFlips(coordinates) {
             //find right endpoint and flip chips in between
 
             for (var k = col; k <= i; k++) {
-                gameArr[row][k] = search;
+                
+                if(gameArr[row][k] === null || gameArr[row][k+1] === null) {
+                    checkRight = false;
+                }
+                
+                if(checkRight === true) {
+                    gameArr[row][k] = search;
+                }
+                
             }
 
             checkRight = false;
@@ -412,8 +431,14 @@ function doFlips(coordinates) {
             diagRowBegin = row + 1;
             diagColBegin = col + 1;
             for (diagRowBegin; diagRowBegin < countInc; diagRowBegin++, diagColBegin++) {
-
-                gameArr[diagRowBegin][diagColBegin] = search;
+                
+                if(gameArr[diagRowBegin][diagColBegin]=== null ||gameArr[diagRowBegin+1][diagColBegin+1]=== null) {
+                    checkRightInc = false;
+                }
+                
+                if(checkRightInc === true) {
+                      gameArr[diagRowBegin][diagColBegin] = search;
+                } 
             }
             checkRightInc = false;
 
@@ -428,8 +453,14 @@ function doFlips(coordinates) {
             diagColBegin = col + 1;
 
             for (diagRowBegin; diagRowBegin > countDec; diagRowBegin--, diagColBegin++) {
-
-                gameArr[diagRowBegin][diagColBegin] = search;
+                if(gameArr[diagRowBegin][diagColBegin] === null || gameArr[diagRowBegin-1][diagColBegin+1] === null) {
+                    checkRightDec = false;
+                }
+                
+                if(checkRightDec === true) {
+                     gameArr[diagRowBegin][diagColBegin] = search;
+                }
+               
             }
             checkRightDec = false;
 
@@ -446,7 +477,13 @@ function doFlips(coordinates) {
 
         if (checkLeft === true && gameArr[row][j] === search) {
             for (var z = col; z >= j; z--) {
-                gameArr[row][z] = search;
+                if(gameArr[row][z] === null || gameArr[row][z-1] === null) {
+                    checkLeft = false;
+                }
+                if(checkLeft === true) {
+                gameArr[row][z] = search; 
+                }
+                
             }
             checkLeft = false;
 
@@ -463,8 +500,14 @@ function doFlips(coordinates) {
             diagColBeginLeft = col - 1;
 
             for (diagRowBeginLeft; diagRowBeginLeft < countIncLeft; diagRowBeginLeft++, diagColBeginLeft--) {
-
-                gameArr[diagRowBeginLeft][diagColBeginLeft] = search;
+                
+                if(gameArr[diagRowBeginLeft][diagColBeginLeft] === null || gameArr[diagRowBeginLeft+1][diagColBeginLeft-1] === null) {
+                    checkLeftInc = false;
+                }
+                if(checkLeftInc === true) {
+                   gameArr[diagRowBeginLeft][diagColBeginLeft] = search; 
+                }
+                
             }
 
             checkLeftInc = false;
@@ -479,8 +522,14 @@ function doFlips(coordinates) {
             diagRowBeginLeft = row - 1;
             diagColBeginLeft = col - 1;
             for (diagRowBeginLeft; diagRowBeginLeft > countDecLeft; diagRowBeginLeft--, diagColBeginLeft--) {
-
-                gameArr[diagRowBeginLeft][diagColBeginLeft] = search;
+                
+                if(gameArr[diagRowBeginLeft][diagColBeginLeft] === null || gameArr[diagRowBeginLeft-1][diagColBeginLeft-1] === null) {
+                 checkLeftDec = false;   
+                }
+                if(checkLeftDec === true) {
+                  gameArr[diagRowBeginLeft][diagColBeginLeft] = search;  
+                }
+                
             }
 
             checkLeftDec = false;
