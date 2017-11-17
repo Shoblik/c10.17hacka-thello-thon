@@ -258,8 +258,7 @@ header > img {
     -webkit-animation: bomb .75s linear infinite, moveR 2s linear;
 
 }
-
-.modal-wrap {
+.modal-wrap{
     display: block;
     position: absolute;
     z-index: 2;
@@ -273,12 +272,11 @@ header > img {
     font-size: 2rem;
 }
 
-.end-window {
+
+.end-window{
     display: none;
-
 }
-
-.modal {
+.modal{
     top: 5%;
     left: 15%;
     right: 15%;
@@ -330,20 +328,47 @@ header > img {
     margin-top: 10px;
 }
 
+
 /*///////////////////////////////////////////////////////////////////////*/
 
+/*/////////////////////////Rules////////////////////////////////////*/
+.rules{
+    background-color: #0f192a;
+    transform-origin: top;
+}
+.start {
+    float: none;
+    font-size: 3rem;
+    position: relative;
+    top: 50px;
+}
+.innerIntroWrapper {
+    margin-top: 100px;
+}
+.innerIntroWrapper > p {
+    font-family: sans-serif;
+    margin: 50px auto;
+    width: 80%;
+}
+/*/////////////////////////Developers section//////////////////////////////////////////////*/
 .dev {
     width: 80vmin;
     height: 80vmin;
-    background-color: green;
+    background-color: darkslategrey;
 }
 
 .rules {
     background-color: #0f192a;
     transform-origin: top;
 }
-
-.hideLeft {
+.dev h1 {
+    margin-bottom: 0;
+}
+.devWrapper {
+    margin-top: 15%;
+}
+/*/////////////////////////////////////////////////////////////////////////////////////////*/
+.hideLeft{
     left: -200%;
 }
 
@@ -356,12 +381,8 @@ header > img {
     top: -200%;
     opacity: 0;
 }
-
-.end-window {}
-
-.win {
+.win{
     background-size: 100%;
-    background-image: url(assets/win-indian.jpg);
     background-repeat: no-repeat;
     background-position: center;
     font-size: 10vmin;
@@ -369,7 +390,7 @@ header > img {
     justify-content: center;
 }
 
-.win > span {
+.win>span{
     display: inline-block;
     position: relative;
     top: 40%;
@@ -401,7 +422,6 @@ header > img {
         left: -50%;
     }
 }
-
 @keyframes moveR {
     100% {
         top: -25%;
@@ -415,3 +435,4 @@ header > img {
         transform: rotate(360deg);
     }
 }
+

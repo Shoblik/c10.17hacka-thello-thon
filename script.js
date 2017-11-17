@@ -29,8 +29,6 @@ function initiateOthello() {
         hints = false;
     });
     $('.settingsButton').on('click', closeModal);
-
-    //$('.settingsButton').on('click', switchModals);
 }
 
 var gameArr = [
@@ -777,6 +775,7 @@ function winWindow(winningPlayer) {
         $('.win').addClass('indian-win')
     }
     $('.end-window').css('display', 'block')
+
 }
 
 
@@ -787,3 +786,4 @@ function AI(possibleCellsArr) {
 
     }, 1000);
 }
+

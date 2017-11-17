@@ -119,11 +119,12 @@
     </div>
     <footer></footer>
     <div class="introWrapper modal-wrap">
-        <div class="rules modal"><span class="close">X</span> Hello World!
-            <span class="start">Start Game</span>
-            <br>
-            <span class="about switch">About the Creators</span>
-            <span class="setting switch">Settings</span>
+        <div class="rules modal"><span class="close">X</span><span class="start close">Start Game</span>
+            <div class="innerIntroWrapper">
+                <span class="about switch">About the Creators</span>
+                <span class="setting switch">Settings</span>
+                <p>First released on home consoles in 1978. Othello is a strategy game in which players attempt to outflank each other and gain more tiles than their opponent. When placing tiles, players must put them in a spot that will flip their opponents pieces. You may toggle hints as well as number of players in the settings menu. Enjoy!</p>
+            </div>
         </div>
         <div class="settings modal hideLeft">
             <span class="close">X</span>
@@ -138,19 +139,23 @@
             <button class="hintsOff">Hints Off</button>
         </div>
         <div class="dev modal hideRight">
-            Dev Test Text
-            <span class="rule switch">Rules</span>
-            <br>
-            <span class="setting switch">Settings</span>
             <span class="close">X</span>
+            <h1>The Developers</h1>
+            <span class="rule switch">Rules</span>
+            <span class="setting switch">Settings</span>
+            <div class="devWrapper">
+                <p>Simon Hoblik</p> <p>Francis Redido</p> <p>Bruce An</p>
+            </div>
         </div>
     </div>
     <div class="end-window modal-wrap">
-            <div class="win modal">
-                <span>WIN!</span>
-                <span class="try-again">TRY AGAIN!</span>
                 <span class="close">X</span>
-            </div>
+
+        <div class="win modal">
+
+            <span>WIN!</span>
+            <span class="try-again">TRY AGAIN!</span>
+        </div>
     </div>
 </div>
 </body>
