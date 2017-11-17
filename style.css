@@ -1,0 +1,462 @@
+body {
+    margin: 0;
+    background-image: url(assets/background3.png);
+    background-size: cover;
+}
+
+
+header {
+    height: 17vmin;
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+header > img {
+    width: 35%;
+}
+
+.settingsButton {
+    position: absolute;
+    margin: 1%;
+}
+
+.settingsButton:hover {
+    filter: brightness(110%) contrast(110%);
+}
+
+.settingsButton:active {
+    transform: translateY(3px);
+}
+
+.settingsButton img {
+    width: 50%;
+    filter: drop-shadow(3px 3px 3px #454545);
+}
+
+
+.progress-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    transition-duration: 2s;
+}
+
+.row,
+.cell {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.side {
+    max-height: 600px;
+    max-width: 300px;
+    height: 70vh;
+    width: 20vw;
+    display: inline-block;
+    transition-duration: 2s;
+}
+
+.cowboy {
+    background-image: url(assets/cowboy.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    margin-right: 5%;
+    border-radius: 5px;
+    border: 5px brown groove;
+    box-shadow: -5px 5px 5px #333333;
+}
+
+.indian {
+    background-image: url(assets/indian.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    margin-left: 5%;
+    border-radius: 5px;
+    border: 5px brown groove;
+    box-shadow: 5px 5px 5px #333333;
+}
+
+.playerTurn {
+    opacity: 1;
+}
+
+.board-container {
+    font-size: 0;
+    display: inline-block;
+    flex-direction: column;
+    max-width: 600px;
+    max-height: 600px;
+    width: 95vw;
+    height: 70vh;
+    box-sizing: content-box;
+    border: 10px brown ridge;
+    background-color: green;
+    #justify-content: center;
+    transition-duration: 2s;
+    transform-origin: center;
+    box-shadow: 3px 6px 4px #333333;
+}
+
+.shrink {
+    transition: .5s;
+    opacity: 0;
+    left: 50%;
+    right: 50%;
+    top: 50%;
+    bottom: 50%;
+    height: 0;
+    width: 0;
+}
+
+.collapse {
+    margin: 0;
+}
+
+.row {
+    display: flex;
+    #flex-direction: column;
+    #border: 1px blue solid;
+    width: 100%;
+    height: 12.5%;
+}
+
+.cell {
+    display: inline-flex;
+    border: 1px white solid;
+    width: 12.5%;
+    height: 100%;
+    align-content: center;
+    justify-content: center;
+
+}
+
+.black {
+    margin-top: 5%;
+    border-radius: 50%;
+    background-color: black;
+    height: 90%;
+    width: 90%;
+    justify-content: center;
+    background-image: url(assets/cowboy2.svg);
+    background-size: 85%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.white {
+    margin-top: 5%;
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid black;
+    height: 90%;
+    width: 90%;
+    background-image: url(assets/indian.svg);
+    background-size: 85%;
+    background-repeat: no-repeat;
+    background-position: center
+}
+
+.valid {
+    opacity: 0.5;
+    background-color: yellow;
+}
+
+/*.valid:hover{  for further implementation when a function is built for it*/
+
+/*opacity: 0.5;*/
+
+/*}*/
+
+.whiteDivProgress {
+    margin: 0.5%;
+    height: 3vmin;
+    width: 65vmin;
+    background-color: white;
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 2px;
+}
+
+.whiteDivProgress::after {
+    background-image: url(assets/indian.gif);
+    background-size: 27%;
+    background-repeat: no-repeat;
+    background-position-y: center;
+    content: "";
+    height: 100%;
+    width: 8vw;
+    position: absolute;
+    display: inline-block;
+
+}
+
+.blackDivProgress {
+    height: 100%;
+    width: 50%;
+    background-color: black;
+    transition-duration: 1.5s;
+    position: relative;
+    display: inline-block;
+}
+
+.blackDivProgress > img {
+    position: absolute;
+    height: 100%;
+    right: 0;
+}
+
+.score {
+    margin: 0.5%;
+    margin-top: 0;
+    width: 65vmin;
+    display: flex;
+    justify-content: space-evenly;
+    font-family: West1;
+    font-size: 3vmin;
+
+}
+
+.reserve-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.chip-reserve {
+    width: 700px;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 1%;
+    font-family: West1;
+    font-size: 3vmin;
+}
+
+.popAxe {
+    height: 10%;
+    width: 10%;
+    position: absolute;
+    -webkit-animation: spin .5s linear infinite, move 2s linear;
+}
+
+
+.popBomb {
+    height: 15%;
+    width: 7%;
+    position: absolute;
+    -webkit-animation: bomb .75s linear infinite, moveR 2s linear;
+
+}
+.modal-wrap{
+    display: block;
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: transparent;
+    transition-duration: 2s;
+    font-size: 2rem;
+}
+
+
+.end-window{
+    display: none;
+}
+.modal{
+    top: 5%;
+    left: 15%;
+    right: 15%;
+    bottom: 5%;
+    margin: auto;
+    text-align: center;
+    position: absolute;
+    box-sizing: border-box;
+    padding: 5px;
+    font-family: West1;
+    color: white;
+    transition-duration: 2s;
+}
+
+/*//////////////////////Settings Modal////////////////////////////////////////*/
+
+.settings {
+    background-image: url(assets/introBG.jpg);
+    width: 50vmin;
+    height: 50vmin;
+    font-size: 2rem;
+}
+
+.close {
+    float: right;
+}
+
+.switch {
+    text-decoration: underline;
+}
+
+.settings h1 {
+    margin: 7% 0 0 0;
+}
+
+.singlePlayer,
+.twoPlayer,
+.hintsOn,
+.hintsOff {
+    padding: 5px;
+    font-family: sans-serif;
+}
+
+.btnWrapper {
+    border-top: solid 2px white;
+    border-bottom: solid 2px white;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+
+/*///////////////////////////////////////////////////////////////////////*/
+
+/*/////////////////////////Rules////////////////////////////////////*/
+.rules{
+    background-color: #0f192a;
+    transform-origin: top;
+}
+.start {
+    float: none;
+    font-size: 3rem;
+    position: relative;
+    top: 50px;
+}
+.innerIntroWrapper {
+    margin-top: 100px;
+}
+.innerIntroWrapper > p {
+    font-family: sans-serif;
+    margin: 50px auto;
+    width: 80%;
+}
+.introWrapper button:hover{
+    background-color: black;
+    color:white;
+}
+/*/////////////////////////Developers section//////////////////////////////////////////////*/
+.dev {
+    width: 80vmin;
+    height: 80vmin;
+    background-image: url(assets/introBG.jpg);
+}
+
+.rules {
+    background-image: url(assets/introBG.jpg);
+    transform-origin: top;
+}
+.dev h1 {
+    margin-bottom: 0;
+}
+.devWrapper {
+    margin-top: 15%;
+}
+/*/////////////////////////////////////////////////////////////////////////////////////////*/
+.hideLeft{
+    left: -200%;
+}
+
+.hideRight {
+    right: -200%;
+
+}
+
+.hideTop {
+    top: -200%;
+    opacity: 0;
+}
+.win {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-size: 10vmin;
+    display: flex;
+}
+.win div:hover, .introWrapper span:hover{
+    color: black;
+}
+.win > .close {
+    float: right;
+    position: absolute;
+    left: 100%;
+    transform: translate(-110%);
+}
+.try-again {
+    display: block;
+    position: relative;
+    top: 40%;
+    left: 50%;
+    font-size: 7rem;
+    transform: translate(-50%);
+    top: 65%;
+    transform: translate(-85%);
+    left: 50%;
+}
+.win>.title{
+    display: block;
+    position: relative;
+    top: 40%;
+    left: 50%;
+    font-size: 7rem;
+    transform: translate(-50%);
+}
+
+.indian-win {
+    background-image: url(assets/indian-win.jpg);
+}
+
+.cowboy-win {
+    background-image: url(assets/cowboy-win.png);
+}
+
+@font-face {
+    font-family: West1;
+    src: url(RioGrande.ttf)
+}
+
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes move {
+    100% {
+        left: -50%;
+    }
+}
+@keyframes moveR {
+    100% {
+        top: -25%;
+        left: 130%;
+    }
+}
+
+@keyframes bomb {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+
