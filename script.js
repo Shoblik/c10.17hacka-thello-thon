@@ -291,9 +291,6 @@ function findPossiblePlacements() {
                 playerTurn();
                 findPossiblePlacements();
             }
-            if (whitePlayer.validTurn || blackPlayer.validTurn) {
-                player = 0;
-            }
         }
         winCheck();
     } else {
@@ -325,6 +322,11 @@ function chipCounter(arr) { //this'll after flip function
             }
         }
     }
+    if(counterObj.blackCount<0){
+        counterObj.blackCount=0;
+    }else if(counterObj.whiteCount<0){
+        counterObj.whiteCount=0
+    }
     updateChipsBar(counterObj);
     return counterObj;
 }
@@ -345,14 +347,12 @@ function winCheck() {
         } else {
             winWindow('white')
         }
-    }
-    if (!blackPlayer.validTurn && !whitePlayer.validTurn) {
+    }else if (!blackPlayer.validTurn && !whitePlayer.validTurn) {
         if (currentCounter.blackCount > currentCounter.whiteCount) {
             winWindow('black')
         } else {
             winWindow('white')
         }
-
     }
 }
 
