@@ -8,11 +8,12 @@ function initiateOthello() {
     $('header').on('click',hideStuff);
     $('.switch').on('click',switchModals);
     $('.close').on('click', closeModal);
+    $('.try-again').on('click',closeModal);
     $('.singlePlayer').on('click', function() {
-       singlePlayer = true;
+        singlePlayer = true;
     });
     $('.twoPlayer').on('click', function() {
-       singlePlayer = false;
+        singlePlayer = false;
     });
     $('.hintsOn').on('click', function() {
         hints = true;
@@ -53,6 +54,9 @@ function chipPlacement(event) {
         col: $(this).attr('col')
     };
     console.log(coordinates);
+    var chipCountBefore = chipCounter(gameArr);
+    var chipCountAfter = null;
+    var chipDifference;
 
     if ($(this).hasClass('valid')) {
         currentChipsOnBoard += 1;
@@ -63,12 +67,19 @@ function chipPlacement(event) {
 
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 0;
             doFlips(coordinates);
-            //
-            popImg(event);
-            setTimeout(function () {
-                $('.popGun').fadeOut(1000, 'swing')
-            }, 1000);
-            //
+
+            chipCountAfter = chipCounter(gameArr);
+            chipDifference = Math.abs(chipCountBefore.blackCount - chipCountAfter.blackCount);
+
+            if (chipDifference > 5) {
+                popImg(event);
+                setTimeout(function () {
+                    $('.popBomb').fadeOut(250, function () {
+                        $('.popBomb').remove();
+                    })
+                }, 500);
+            }
+
             player += 1;
             blackPlayer.chipStack -= 1;
         } else {
@@ -77,12 +88,19 @@ function chipPlacement(event) {
             }));
             gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 1;
             doFlips(coordinates);
-            //
-            popImg(event);
-            setTimeout(function () {
-                $('.popAxe').fadeOut(250, 'swing')
-            }, 500);
-            //
+
+            chipCountAfter = chipCounter(gameArr);
+            chipDifference = Math.abs(chipCountBefore.whiteCount - chipCountAfter.whiteCount);
+
+            if (chipDifference > 5) {
+                popImg(event);
+                setTimeout(function () {
+                    $('.popAxe').fadeOut(250, function () {
+                        $('.popAxe').remove();
+                    })
+                }, 500);
+            }
+
             player -= 1;
             whitePlayer.chipStack -= 1;
         }
@@ -254,7 +272,6 @@ function findPossiblePlacements() {
             }
         }
     }
-    winCheck();
     if(possiblePlacementArr.length===0){
         if(player===0){
             blackPlayer.validTurn=false;
@@ -262,26 +279,24 @@ function findPossiblePlacements() {
         }else {
             whitePlayer.validTurn = false;
             player -= 1;
-
         }
         if(whitePlayer.validTurn || blackPlayer.validTurn){
             player=0;
             findPossiblePlacements();
         }
-
-    }else{
-        if(player===0){
-            blackPlayer.validTurn=true;
+        winCheck();
+    } else {
+        if (player === 0) {
+            blackPlayer.validTurn = true;
             validPlacement(possiblePlacementArr);
-
-        }else{
-            whitePlayer.validTurn=true;
+        } else {
+            whitePlayer.validTurn = true;
             validPlacement(possiblePlacementArr);
             if (singlePlayer) {
                 AI(possiblePlacementArr);
             }
-        }
 
+        }
     }
 }
 
@@ -315,19 +330,18 @@ function winCheck() {
     var currentCounter = chipCounter(gameArr); //returns an object with whiteCount and blackCount
     if (blackPlayer.chipStack === 0 && whitePlayer.chipStack === 0) {
         if (currentCounter.blackCount > currentCounter.whiteCount) {
-            console.log('black wins')
+            winWindow('black')
         } else {
-            console.log('white wins')
+            winWindow('white')
         }
-        resetGame();
     }
     if (!blackPlayer.validTurn && !whitePlayer.validTurn) {
         if (currentCounter.blackCount > currentCounter.whiteCount) {
-            console.log('black wins')
+            winWindow('black')
         } else {
-            console.log('white wins')
+            winWindow('white')
         }
-        resetGame();
+
     }
 }
 
@@ -674,17 +688,9 @@ function popImg(event) {
     var topPx = mouseY + 'px';
 
     if (player === 0) {
-        var assetSrc = 'assets/gun.png';
-        var assetClass = "<img class='popGun'>";
-        var assetClassSelect = '.popGun';
-
-        $('body').append($(assetClass).attr("src", assetSrc));
-        $(assetClassSelect).css('left', leftPx);
-        $(assetClassSelect).css('top', topPx);
-
-        setTimeout(function () {
-            $('.popGun').attr('src', 'assets/gun-bang.png')
-        }, 150);
+        var assetSrc = 'assets/bomb.png';
+        var assetClass = "<img class='popBomb'>";
+        var assetClassSelect = '.popBomb';
 
     } else if (player === 1) {
         if (singlePlayer) {
@@ -695,44 +701,65 @@ function popImg(event) {
         assetClass = "<img class='popAxe'>";
         assetClassSelect = '.popAxe';
 
-        $('body').append($(assetClass).attr("src", assetSrc));
-        $(assetClassSelect).css('left', leftPx);
-        $(assetClassSelect).css('top', topPx);
+
     }
+
+    $('body').append($(assetClass).attr("src", assetSrc));
+    $(assetClassSelect).css('left', leftPx);
+    $(assetClassSelect).css('top', topPx);
+
 }
-function hideStuff(){
+
+function hideStuff() {
     $('.board-container').toggleClass('shrink');
     $('.side').toggleClass('collapse')
 
 }
-function switchModals(){
-    var parent= $(this).parent();
-    if($(this).hasClass('about')){
+
+function switchModals() {
+    var parent = $(this).parent();
+    if ($(this).hasClass('about')) {
         $('.dev').toggleClass('hideRight');
-        if(parent.hasClass('rules')){
+        if (parent.hasClass('rules')) {
             parent.toggleClass('hideTop')
-        }else{
+        } else {
             parent.toggleClass('hideLeft')
         }
-    }else if($(this).hasClass('setting')) {
+    } else if ($(this).hasClass('setting')) {
         $('.settings').toggleClass('hideLeft');
         if (parent.hasClass('rules')) {
             parent.toggleClass('hideTop')
-        }else{
+        } else {
             parent.toggleClass('hideRight')
         }
-    }else{
+    } else {
         $('.rules').toggleClass('hideTop');
         if (parent.hasClass('settings')) {
             parent.toggleClass('hideLeft')
-        }else{
+        } else {
             parent.toggleClass('hideRight')
         }
     }
 }
-function closeModal(){
-    $('.introWrapper').css('top','-200%')
+
+function closeModal() {
+    var parent = $(this).parent();
+    if(parent.hasClass('win')){
+        $('.end-window').fadeOut();
+        resetGame();
+    }else{
+        $('.introWrapper').css('top', '-200%')
+    }
 }
+function winWindow(winningPlayer){
+    if(winningPlayer==='black'){
+        $('.win').addClass('cowboy-win')
+    }else{
+        $('.win').addClass('indian-win')
+    }
+    $('.end-window').css('display','block')
+}
+
 
 function AI(possibleCellsArr) {
     setTimeout(function() {
@@ -741,6 +768,3 @@ function AI(possibleCellsArr) {
 
     }, 1000);
 }
-
-
-

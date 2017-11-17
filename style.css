@@ -12,7 +12,7 @@ header {
 }
 
 header > img {
-    width: 30%;
+    width: 35%;
 }
 
 
@@ -50,6 +50,9 @@ header > img {
     background-repeat: no-repeat;
     opacity: 0.3;
     margin-right: 5%;
+    border-radius: 5px;
+    border: 5px brown groove;
+    box-shadow: -5px 5px 5px #333333;
 }
 
 .indian {
@@ -58,6 +61,9 @@ header > img {
     background-repeat: no-repeat;
     opacity: 0.3;
     margin-left: 5%;
+    border-radius: 5px;
+    border: 5px brown groove;
+    box-shadow: 5px 5px 5px #333333;
 }
 
 .playerTurn {
@@ -73,12 +79,12 @@ header > img {
     width: 95vw;
     height: 70vh;
     box-sizing: content-box;
-    border: 5px brown solid;
+    border: 10px brown ridge;
     background-color: green;
     #justify-content: center;
     transition-duration: 2s;
     transform-origin: center;
-
+    box-shadow: 3px 6px 4px #333333;
 }
 .shrink{
     transition: .5s;
@@ -153,6 +159,7 @@ header > img {
     position: relative;
     box-sizing: border-box;
     border: 1px solid black;
+    border-radius: 2px;
 }
 .whiteDivProgress::after {
     background-image: url(assets/indian.gif);
@@ -203,7 +210,7 @@ header > img {
     width: 700px;
     display: flex;
     justify-content: space-evenly;
-    margin: 2%;
+    margin: 1%;
     font-family: West1;
     font-size: 3vmin;
 }
@@ -216,14 +223,14 @@ header > img {
 }
 
 
-.popGun {
-    height: 12%;
-    width: 12%;
+.popBomb {
+    height: 15%;
+    width: 7%;
     position: absolute;
-    -webkit-animation: gun .5s linear;
+    -webkit-animation: bomb .75s linear infinite, moveR 2s linear;
 
 }
-.introWrapper{
+.modal-wrap{
     display: block;
     position: absolute;
     z-index: 2;
@@ -237,6 +244,10 @@ header > img {
     font-size: 2rem;
 }
 
+.end-window{
+    display: none;
+
+}
 .modal{
     top: 5%;
     left: 15%;
@@ -277,16 +288,38 @@ header > img {
     padding-bottom: 10px;
     margin-top: 10px;
 }
-/*///////////////////////////////////////////////////////////////////////*/
-.dev{
-    width: 80vmin;
-    height: 80vmin;
-    background-color: green;
-}
+/*/////////////////////////Rules////////////////////////////////////*/
 .rules{
     background-color: #0f192a;
     transform-origin: top;
 }
+.start {
+    float: none;
+    font-size: 3rem;
+    position: relative;
+    top: 50px;
+}
+.innerIntroWrapper {
+    margin-top: 100px;
+}
+.innerIntroWrapper > p {
+    font-family: sans-serif;
+    margin: 50px auto;
+    width: 80%;
+}
+/*/////////////////////////Developers section//////////////////////////////////////////////*/
+.dev{
+    width: 80vmin;
+    height: 80vmin;
+    background-color: darkslategrey;
+}
+.dev h1 {
+    margin-bottom: 0;
+}
+.devWrapper {
+    margin-top: 15%;
+}
+/*/////////////////////////////////////////////////////////////////////////////////////////*/
 .hideLeft{
     left: -200%;
 }
@@ -298,6 +331,30 @@ header > img {
     top: -200%;
     opacity: 0;
 }
+.end-window{
+
+}
+.win{
+    background-size: 100%;
+    background-image: url(assets/win-indian.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    font-size: 10vmin;
+    display: flex;
+    justify-content: center;
+}
+.win>span{
+    display: inline-block;
+    position: relative;
+    top: 40%;
+
+}
+.indian-win{
+    background-image: url(assets/win-indian.jpg);
+}
+.cowboy-win{
+    background-image: url(assets/cowboy-win.png);
+}
 @font-face {
     font-family: West1;
     src: url(RioGrande.ttf)
@@ -306,5 +363,6 @@ header > img {
 
 @keyframes move { 100% { left: -50%; } }
 
-@keyframes gun { 50% { transform: rotate(-45deg)}
-    100% { transform: rotate(0deg)}}
+@keyframes moveR { 100% { top: -25%; left: 130%; }}
+
+@keyframes bomb { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
