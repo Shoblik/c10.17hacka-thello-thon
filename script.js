@@ -1,6 +1,7 @@
 $(document).ready(initiateOthello);
 var singlePlayer = true;
 var hints = true;
+
 function initiateOthello() {
     $('.cell').on('click', chipPlacement);
     findPossiblePlacements();
@@ -16,16 +17,20 @@ function initiateOthello() {
     $('.try-again').on('click',closeModal);
     $('.singlePlayer').on('click', function() {
        singlePlayer = true;
+    $('header > img').on('click', hideStuff);
     });
-    $('.twoPlayer').on('click', function() {
-       singlePlayer = false;
+    $('.twoPlayer').on('click', function () {
+        singlePlayer = false;
     });
-    $('.hintsOn').on('click', function() {
+    $('.hintsOn').on('click', function () {
         hints = true;
     });
-    $('.hintsOff').on('click', function() {
+    $('.hintsOff').on('click', function () {
         hints = false;
     });
+    $('.settingsButton').on('click', closeModal);
+
+    //$('.settingsButton').on('click', switchModals);
 }
 
 var gameArr = [
@@ -761,26 +766,24 @@ function closeModal() {
         hideBoard();
         setTimeout(hideBoard,3000);
     }else{
-        $('.introWrapper').css('top', '-200%')
+        $('.introWrapper').toggleClass('hideTop');
     }
 }
-function winWindow(winningPlayer){
-    if(winningPlayer==='black'){
+
+function winWindow(winningPlayer) {
+    if (winningPlayer === 'black') {
         $('.win').addClass('cowboy-win')
-    }else{
+    } else {
         $('.win').addClass('indian-win')
     }
-    $('.end-window').css('display','block')
+    $('.end-window').css('display', 'block')
 }
 
 
 function AI(possibleCellsArr) {
-    setTimeout(function() {
+    setTimeout(function () {
         var randomCellNum = Math.floor(Math.random() * possibleCellsArr.length);
         $($('.row')[possibleCellsArr[randomCellNum][0]]).find('[col=' + possibleCellsArr[randomCellNum][1] + ']').click();
 
     }, 1000);
 }
-
-
-
