@@ -5,9 +5,14 @@ function initiateOthello() {
     $('.cell').on('click', chipPlacement);
     findPossiblePlacements();
     playerTurn();
-    $('header').on('click',hideStuff);
-    $('.switch').on('click',switchModals);
+    $('.start').on('click',function(){
+        setTimeout(hideBoard, 1000)
+    });
+    $('.close').on('click',function(){
+        setTimeout(hideBoard, 1000)
+    });
     $('.close').on('click', closeModal);
+    $('.switch').on('click',switchModals);
     $('.try-again').on('click',closeModal);
     $('.singlePlayer').on('click', function() {
        singlePlayer = true;
@@ -273,17 +278,22 @@ function findPossiblePlacements() {
         }
     }
     if(possiblePlacementArr.length===0){
-        if(player===0){
-            blackPlayer.validTurn=false;
-            player+=1;
-        }else {
-            whitePlayer.validTurn = false;
-            player -= 1;
-            }
-            if(whitePlayer.validTurn || blackPlayer.validTurn){
-                player=0;
+        if(blackPlayer.validTurn || whitePlayer.validTurn) {
+            if (player === 0) {
+                blackPlayer.validTurn = false;
+                player += 1;
+                playerTurn();
+                findPossiblePlacements();
+            } else {
+                whitePlayer.validTurn = false;
+                player -= 1;
+                playerTurn();
                 findPossiblePlacements();
             }
+            if (whitePlayer.validTurn || blackPlayer.validTurn) {
+                player = 0;
+            }
+        }
         winCheck();
     } else {
         if (player === 0) {
@@ -679,6 +689,7 @@ function resetGame() {
     chipCounter(gameArr);
     updateChipReserve();
     player = 0;
+    findPossiblePlacements();
 }
 
 function popImg(event) {
@@ -710,7 +721,7 @@ function popImg(event) {
 
 }
 
-function hideStuff() {
+function hideBoard() {
     $('.board-container').toggleClass('shrink');
     $('.side').toggleClass('collapse')
 
@@ -745,8 +756,10 @@ function switchModals() {
 function closeModal() {
     var parent = $(this).parent();
     if(parent.hasClass('win')){
-        $('.end-window').fadeOut();
+        $('.end-window').fadeOut(500);
         resetGame();
+        hideBoard();
+        setTimeout(hideBoard,3000);
     }else{
         $('.introWrapper').css('top', '-200%')
     }
