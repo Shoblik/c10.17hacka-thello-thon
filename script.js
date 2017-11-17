@@ -13,6 +13,7 @@ function initiateOthello() {
     $('.switch').on('click',switchModals);
     $('.try-again').on('click',closeModal);
     $('.singlePlayer').on('click', function() {
+
        singlePlayer = true;
     $('header > img').on('click', hideBoard);
     });

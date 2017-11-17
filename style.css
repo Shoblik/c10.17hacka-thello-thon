@@ -288,7 +288,6 @@ header > img {
     padding: 5px;
     font-family: West1;
     color: white;
-    ;
     transition-duration: 2s;
 }
 
@@ -385,22 +384,40 @@ header > img {
     top: -200%;
     opacity: 0;
 }
-.win{
+.win {
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
     font-size: 10vmin;
     display: flex;
-    justify-content: center;
 }
-
-.win span{
-    display: inline-block;
+.win div:hover, .introWrapper span:hover{
+    color: black;
+}
+.win > .close {
+    float: right;
+    position: absolute;
+    left: 100%;
+    transform: translate(-110%);
+}
+.try-again {
+    display: block;
     position: relative;
     top: 40%;
+    left: 50%;
+    font-size: 7rem;
+    transform: translate(-50%);
+    top: 65%;
+    transform: translate(-85%);
+    left: 50%;
 }
-.win span:hover, .introWrapper span:hover{
-    color: black;
+.win>.title{
+    display: block;
+    position: relative;
+    top: 40%;
+    left: 50%;
+    font-size: 7rem;
+    transform: translate(-50%);
 }
 
 .indian-win {
@@ -441,4 +458,5 @@ header > img {
         transform: rotate(360deg);
     }
 }
+
 
