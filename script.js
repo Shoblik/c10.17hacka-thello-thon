@@ -1,26 +1,30 @@
 $(document).ready(initiateOthello);
 var singlePlayer = true;
 var hints = true;
+
 function initiateOthello() {
     $('.cell').on('click', chipPlacement);
     findPossiblePlacements();
     playerTurn();
-    $('header').on('click',hideStuff);
-    $('.switch').on('click',switchModals);
+    $('header > img').on('click', hideStuff);
+    $('.switch').on('click', switchModals);
     $('.close').on('click', closeModal);
-    $('.try-again').on('click',closeModal);
-    $('.singlePlayer').on('click', function() {
-       singlePlayer = true;
+    $('.try-again').on('click', closeModal);
+    $('.singlePlayer').on('click', function () {
+        singlePlayer = true;
     });
-    $('.twoPlayer').on('click', function() {
-       singlePlayer = false;
+    $('.twoPlayer').on('click', function () {
+        singlePlayer = false;
     });
-    $('.hintsOn').on('click', function() {
+    $('.hintsOn').on('click', function () {
         hints = true;
     });
-    $('.hintsOff').on('click', function() {
+    $('.hintsOff').on('click', function () {
         hints = false;
     });
+    $('.settingsButton').on('click', closeModal);
+
+    //$('.settingsButton').on('click', switchModals);
 }
 
 var gameArr = [
@@ -272,18 +276,18 @@ function findPossiblePlacements() {
             }
         }
     }
-    if(possiblePlacementArr.length===0){
-        if(player===0){
-            blackPlayer.validTurn=false;
-            player+=1;
-        }else {
+    if (possiblePlacementArr.length === 0) {
+        if (player === 0) {
+            blackPlayer.validTurn = false;
+            player += 1;
+        } else {
             whitePlayer.validTurn = false;
             player -= 1;
-            }
-            if(whitePlayer.validTurn || blackPlayer.validTurn){
-                player=0;
-                findPossiblePlacements();
-            }
+        }
+        if (whitePlayer.validTurn || blackPlayer.validTurn) {
+            player = 0;
+            findPossiblePlacements();
+        }
         winCheck();
     } else {
         if (player === 0) {
@@ -744,30 +748,28 @@ function switchModals() {
 
 function closeModal() {
     var parent = $(this).parent();
-    if(parent.hasClass('win')){
+    if (parent.hasClass('win')) {
         $('.end-window').fadeOut();
         resetGame();
-    }else{
-        $('.introWrapper').css('top', '-200%')
+    } else {
+        $('.introWrapper').toggleClass('hideTop')
     }
 }
-function winWindow(winningPlayer){
-    if(winningPlayer==='black'){
+
+function winWindow(winningPlayer) {
+    if (winningPlayer === 'black') {
         $('.win').addClass('cowboy-win')
-    }else{
+    } else {
         $('.win').addClass('indian-win')
     }
-    $('.end-window').css('display','block')
+    $('.end-window').css('display', 'block')
 }
 
 
 function AI(possibleCellsArr) {
-    setTimeout(function() {
+    setTimeout(function () {
         var randomCellNum = Math.floor(Math.random() * possibleCellsArr.length);
         $($('.row')[possibleCellsArr[randomCellNum][0]]).find('[col=' + possibleCellsArr[randomCellNum][1] + ']').click();
 
     }, 1000);
 }
-
-
-

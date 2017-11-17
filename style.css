@@ -9,10 +9,29 @@ header {
     height: 17vmin;
     width: 100%;
     text-align: center;
+    position: relative;
 }
 
 header > img {
     width: 35%;
+}
+
+.settingsButton {
+    position: absolute;
+    margin: 1%;
+}
+
+.settingsButton:hover {
+    filter: brightness(110%) contrast(110%);
+}
+
+.settingsButton:active {
+    transform: translateY(3px);
+}
+
+.settingsButton img {
+    width: 50%;
+    filter: drop-shadow(3px 3px 3px #454545);
 }
 
 
@@ -22,7 +41,8 @@ header > img {
     align-items: center;
     width: 100%;
 }
-.main{
+
+.main {
     display: flex;
     justify-content: center;
     transition-duration: 2s;
@@ -86,7 +106,8 @@ header > img {
     transform-origin: center;
     box-shadow: 3px 6px 4px #333333;
 }
-.shrink{
+
+.shrink {
     transition: .5s;
     opacity: 0;
     left: 50%;
@@ -96,9 +117,11 @@ header > img {
     height: 0;
     width: 0;
 }
-.collapse{
+
+.collapse {
     margin: 0;
 }
+
 .row {
     display: flex;
     #flex-direction: column;
@@ -143,15 +166,18 @@ header > img {
     background-position: center
 }
 
-.valid{
+.valid {
     opacity: 0.5;
     background-color: yellow;
 }
+
 /*.valid:hover{  for further implementation when a function is built for it*/
+
 /*opacity: 0.5;*/
+
 /*}*/
 
-.whiteDivProgress{
+.whiteDivProgress {
     margin: 0.5%;
     height: 3vmin;
     width: 65vmin;
@@ -161,6 +187,7 @@ header > img {
     border: 1px solid black;
     border-radius: 2px;
 }
+
 .whiteDivProgress::after {
     background-image: url(assets/indian.gif);
     background-size: 27%;
@@ -182,13 +209,14 @@ header > img {
     position: relative;
     display: inline-block;
 }
-.blackDivProgress>img{
+
+.blackDivProgress > img {
     position: absolute;
     height: 100%;
     right: 0;
 }
 
-.score{
+.score {
     margin: 0.5%;
     margin-top: 0;
     width: 65vmin;
@@ -230,7 +258,8 @@ header > img {
     -webkit-animation: bomb .75s linear infinite, moveR 2s linear;
 
 }
-.modal-wrap{
+
+.modal-wrap {
     display: block;
     position: absolute;
     z-index: 2;
@@ -244,11 +273,12 @@ header > img {
     font-size: 2rem;
 }
 
-.end-window{
+.end-window {
     display: none;
 
 }
-.modal{
+
+.modal {
     top: 5%;
     left: 15%;
     right: 15%;
@@ -259,60 +289,77 @@ header > img {
     box-sizing: border-box;
     padding: 5px;
     font-family: West1;
-    color: white;;
+    color: white;
+    ;
     transition-duration: 2s;
 }
+
 /*//////////////////////Settings Modal////////////////////////////////////////*/
-.settings{
+
+.settings {
     background-color: black;
     width: 50vmin;
     height: 50vmin;
     font-size: 2rem;
 }
+
 .close {
     float: right;
 }
+
 .switch {
     text-decoration: underline;
 }
+
 .settings h1 {
     margin: 7% 0 0 0;
 }
-.singlePlayer, .twoPlayer, .hintsOn, .hintsOff {
+
+.singlePlayer,
+.twoPlayer,
+.hintsOn,
+.hintsOff {
     padding: 5px;
     font-family: sans-serif;
 }
+
 .btnWrapper {
     border-top: solid 2px white;
     border-bottom: solid 2px white;
     padding-bottom: 10px;
     margin-top: 10px;
 }
+
 /*///////////////////////////////////////////////////////////////////////*/
-.dev{
+
+.dev {
     width: 80vmin;
     height: 80vmin;
     background-color: green;
 }
-.rules{
+
+.rules {
     background-color: #0f192a;
     transform-origin: top;
 }
-.hideLeft{
+
+.hideLeft {
     left: -200%;
 }
-.hideRight{
+
+.hideRight {
     right: -200%;
 
 }
-.hideTop{
+
+.hideTop {
     top: -200%;
     opacity: 0;
 }
-.end-window{
 
-}
-.win{
+.end-window {}
+
+.win {
     background-size: 100%;
     background-image: url(assets/win-indian.jpg);
     background-repeat: no-repeat;
@@ -321,26 +368,50 @@ header > img {
     display: flex;
     justify-content: center;
 }
-.win>span{
+
+.win > span {
     display: inline-block;
     position: relative;
     top: 40%;
 
 }
-.indian-win{
-    background-image: url(assets/win-indian.jpg);
+
+.indian-win {
+    background-image: url(assets/indian-win.jpg);
 }
-.cowboy-win{
+
+.cowboy-win {
     background-image: url(assets/cowboy-win.png);
 }
+
 @font-face {
     font-family: West1;
     src: url(RioGrande.ttf)
 }
-@keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
 
-@keyframes move { 100% { left: -50%; } }
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg);
+    }
+}
 
-@keyframes moveR { 100% { top: -25%; left: 130%; }}
+@keyframes move {
+    100% {
+        left: -50%;
+    }
+}
 
-@keyframes bomb { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+@keyframes moveR {
+    100% {
+        top: -25%;
+        left: 130%;
+    }
+}
+
+@keyframes bomb {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
