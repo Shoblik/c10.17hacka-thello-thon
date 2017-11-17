@@ -426,6 +426,7 @@ header > img {
 
 .cowboy-win {
     background-image: url(assets/cowboy-win.png);
+    background-size: cover;
 }
 
 @font-face {

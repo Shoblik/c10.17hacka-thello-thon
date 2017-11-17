@@ -1,6 +1,4 @@
 $(document).ready(initiateOthello);
-var singlePlayer = true;
-var hints = true;
 
 function initiateOthello() {
     $('.cell').on('click', chipPlacement);
@@ -39,12 +37,12 @@ var gameArr = [
     [null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null]
 ];
-
+var singlePlayer = true;
+var hints = true;
 var player = 0;
 var blackPlayer = new Player('black');
 var whitePlayer = new Player('white');
 var currentChipsOnBoard = 4;
-var reset = false;
 
 function Player(color) {
     this.chipStack = 30;
@@ -71,14 +69,14 @@ function chipPlacement(event) {
                 'class': blackPlayer.chipColor
             }));
 
-            gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 0;
+            gameArr[parseFloat(coordinates.row)][parseFloat(coordinates.col)] = 0; //updates gameArray
             doFlips(coordinates);
 
             chipCountAfter = chipCounter(gameArr);
             chipDifference = Math.abs(chipCountBefore.blackCount - chipCountAfter.blackCount);
 
             if (chipDifference > 5) {
-                popImg(event);
+                popImg(event); //animation for tomahawaks and bombs
                 setTimeout(function () {
                     $('.popBomb').fadeOut(250, function () {
                         $('.popBomb').remove();
@@ -88,6 +86,10 @@ function chipPlacement(event) {
 
             player += 1;
             blackPlayer.chipStack -= 1;
+            if(blackPlayer.chipStack<0) {
+                blackPlayer.chipStack = 0;
+                whitePlayer.chipStack -= 1;
+            }
         } else {
             $(this).append($('<div>', {
                 'class': whitePlayer.chipColor
@@ -109,6 +111,10 @@ function chipPlacement(event) {
 
             player -= 1;
             whitePlayer.chipStack -= 1;
+            if(whitePlayer.chipStack<0){
+                whitePlayer.chipStack=0;
+                blackPlayer.chipStack-=1;
+            }
         }
         playerTurn();
         updateChipReserve();
@@ -321,11 +327,6 @@ function chipCounter(arr) { //this'll after flip function
                 counterObj.whiteCount += 1
             }
         }
-    }
-    if(counterObj.blackCount<0){
-        counterObj.blackCount=0;
-    }else if(counterObj.whiteCount<0){
-        counterObj.whiteCount=0
     }
     updateChipsBar(counterObj);
     return counterObj;
@@ -627,7 +628,6 @@ function doFlips(coordinates) {
         rowDecLeft--;
     }
     console.log(gameArr);
-    updateDOMGameBoard();
 }
 
 
@@ -641,7 +641,6 @@ function updateDOMGameBoard(row, col) {
             'transition': '.8s',
         });;
     }
-    chipCounter(gameArr);
 }
 
 function playerTurn() {
@@ -722,7 +721,7 @@ function popImg(event) {
 
 }
 
-function hideBoard() {
+function hideBoard(){
     $('.board-container').toggleClass('shrink');
     $('.side').toggleClass('collapse')
 
