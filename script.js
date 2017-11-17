@@ -16,8 +16,10 @@ function initiateOthello() {
     $('.switch').on('click',switchModals);
     $('.try-again').on('click',closeModal);
     $('.singlePlayer').on('click', function() {
-        singlePlayer = true;
-        $('header > img').on('click', hideStuff);
+
+       singlePlayer = true;
+    $('header > img').on('click', hideBoard);
+
     });
     $('.twoPlayer').on('click', function () {
         singlePlayer = false;
@@ -786,3 +788,4 @@ function AI(possibleCellsArr) {
 
     }, 1000);
 }
+
