@@ -295,7 +295,7 @@ header > img {
 /*//////////////////////Settings Modal////////////////////////////////////////*/
 
 .settings {
-    background-color: black;
+    background-image: url(assets/introBG.jpg);
     width: 50vmin;
     height: 50vmin;
     font-size: 2rem;
@@ -350,15 +350,19 @@ header > img {
     margin: 50px auto;
     width: 80%;
 }
+.introWrapper button:hover{
+    background-color: black;
+    color:white;
+}
 /*/////////////////////////Developers section//////////////////////////////////////////////*/
 .dev {
     width: 80vmin;
     height: 80vmin;
-    background-color: darkslategrey;
+    background-image: url(assets/introBG.jpg);
 }
 
 .rules {
-    background-color: #0f192a;
+    background-image: url(assets/introBG.jpg);
     transform-origin: top;
 }
 .dev h1 {
@@ -390,11 +394,13 @@ header > img {
     justify-content: center;
 }
 
-.win>span{
+.win span{
     display: inline-block;
     position: relative;
     top: 40%;
-
+}
+.win span:hover, .introWrapper span:hover{
+    color: black;
 }
 
 .indian-win {

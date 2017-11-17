@@ -6,9 +6,6 @@ function initiateOthello() {
     $('.cell').on('click', chipPlacement);
     findPossiblePlacements();
     playerTurn();
-    $('.start').on('click',function(){
-        setTimeout(hideBoard, 1000)
-    });
     $('.close').on('click',function(){
         setTimeout(hideBoard, 1000)
     });
@@ -17,7 +14,7 @@ function initiateOthello() {
     $('.try-again').on('click',closeModal);
     $('.singlePlayer').on('click', function() {
        singlePlayer = true;
-    $('header > img').on('click', hideStuff);
+    $('header > img').on('click', hideBoard);
     });
     $('.twoPlayer').on('click', function () {
         singlePlayer = false;
@@ -734,15 +731,15 @@ function switchModals() {
     var parent = $(this).parent();
     if ($(this).hasClass('about')) {
         $('.dev').toggleClass('hideRight');
-        if (parent.hasClass('rules')) {
-            parent.toggleClass('hideTop')
+        if (parent.hasClass('innerIntroWrapper')) {
+            $('.rules').toggleClass('hideTop')
         } else {
             parent.toggleClass('hideLeft')
         }
     } else if ($(this).hasClass('setting')) {
         $('.settings').toggleClass('hideLeft');
-        if (parent.hasClass('rules')) {
-            parent.toggleClass('hideTop')
+        if (parent.hasClass('innerIntroWrapper')) {
+            $('.rules').toggleClass('hideTop')
         } else {
             parent.toggleClass('hideRight')
         }
